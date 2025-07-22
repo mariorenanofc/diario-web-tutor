@@ -1,22 +1,101 @@
 import React, { useState, useEffect } from "react";
-import { collection, query, orderBy, onSnapshot, doc, getDoc, setDoc, deleteDoc, getDocs } from "firebase/firestore"; 
+import { collection, query, orderBy, onSnapshot, doc, setDoc, deleteDoc } from "firebase/firestore"; 
 import { useAuth } from "../context/AuthContext";
 import AlertDialog from "../components/common/AlertDialog";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 
-// Novo componente para o Formulário de Planejamento (agora como um modal)
-// Mantive ele interno por enquanto para simplificar o arquivo principal,
-// mas ele pode ser movido para um arquivo DailyPlanningForm.js separado no futuro.
+// NOVO COMPONENTE: Modal de Visualização de Planejamento Diário
+const ViewDailyPlanModal = ({ plan, onClose, onEdit, onDelete, showAlert, insightLoading, handleGenerateInsight }) => {
+  return (
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
+      <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-200">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:text-gray-400 dark:hover:text-gray-100"
+        >
+          &times;
+        </button>
+        <h3 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-4 dark:text-teal-400">
+          Planejamento Diário: {new Date(plan.date).toLocaleDateString('pt-BR')}
+        </h3>
+        <p className="text-sm text-gray-600 mb-6 dark:text-gray-300">
+          Detalhes do seu planejamento para este dia.
+        </p>
+
+        <div className="space-y-4 text-gray-700 dark:text-gray-300">
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Urgente e Importante:</h5>
+            <p className="text-sm dark:text-gray-200">{plan.urgentImportant || 'Nenhum item'}</p>
+          </div>
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Não Urgente e Importante:</h5>
+            <p className="text-sm dark:text-gray-200">{plan.notUrgentImportant || 'Nenhum item'}</p>
+          </div>
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Urgente e Não Importante:</h5>
+            <p className="text-sm dark:text-gray-200">{plan.urgentNotImportant || 'Nenhum item'}</p>
+          </div>
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Não Urgente e Não Importante:</h5>
+            <p className="text-sm dark:text-gray-200">{plan.notUrgentNotImportant || 'Nenhum item'}</p>
+          </div>
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Programação Diária:</h5>
+            <ul className="list-disc list-inside text-sm dark:text-gray-200">
+              {plan.dailySchedule?.filter(s => s).map((item, i) => <li key={i}>{item}</li>) || 'Nenhuma programação.'}
+            </ul>
+          </div>
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Anotações:</h5>
+            <p className="text-sm dark:text-gray-200">{plan.notes || 'Nenhuma anotação.'}</p>
+          </div>
+          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Tarefas:</h5>
+            <p className="text-sm dark:text-gray-200">{plan.tasks || 'Nenhuma tarefa.'}</p>
+          </div>
+        </div>
+
+        {/* Botões de Ação no final do modal de visualização */}
+        <div className="flex justify-end gap-3 sm:gap-4 mt-8 pt-4 border-t border-stone-200 dark:border-gray-600">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+          >
+            Fechar
+          </button>
+          <button
+            onClick={() => { onEdit(plan); }} // Passa o plano para edição
+            className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base"
+          >
+            Editar Plano
+          </button>
+          <button
+            onClick={() => { onDelete(plan.id, plan.date); }} // Passa o ID e a data para exclusão
+            className="px-5 py-2 sm:px-6 sm:py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-sm sm:text-base"
+          >
+            Deletar Plano
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+// NOVO COMPONENTE: O Formulário de Planejamento (agora interno)
+// Você pode mantê-lo aqui ou movê-lo para DailyPlanningForm.js
 const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, user, db, appId }) => {
-  const [planningData, setPlanningData] = useState({
-    date: new Date().toISOString().slice(0, 10),
-    urgentImportant: "",
-    notUrgentImportant: "",
-    urgentNotImportant: "",
-    notUrgentNotImportant: "",
-    dailySchedule: Array(9).fill(""),
-    notes: "",
-    tasks: "",
+  const [planningData, setPlanningData] = useState(() => {
+    return editingPlan ? editingPlan : {
+      date: new Date().toISOString().slice(0, 10),
+      urgentImportant: "",
+      notUrgentImportant: "",
+      urgentNotImportant: "",
+      notUrgentNotImportant: "",
+      dailySchedule: Array(9).fill(""),
+      notes: "",
+      tasks: "",
+    };
   });
   const [isSaving, setIsSaving] = useState(false);
   const [formErrors, setFormErrors] = useState({});
@@ -25,9 +104,8 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
     if (editingPlan) {
       setPlanningData(editingPlan);
     } else {
-      // Resetar formulário para nova entrada, mas manter a data atual
       setPlanningData(prev => ({
-        date: new Date().toISOString().slice(0, 10), // Garante a data de hoje para novas entradas
+        date: new Date().toISOString().slice(0, 10),
         urgentImportant: "",
         notUrgentImportant: "",
         urgentNotImportant: "",
@@ -92,7 +170,7 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
 
     setIsSaving(true);
     const userId = user.uid || "anonymous";
-    const docId = planningData.date.replace(/-/g, ""); // Document ID é a data
+    const docId = planningData.date.replace(/-/g, "");
     const dailyPlanDocRef = doc(
       db,
       `artifacts/${appId}/users/${userId}/dailyPlans`,
@@ -102,9 +180,9 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
     try {
       await setDoc(dailyPlanDocRef, planningData, { merge: true });
       showAlert(`Plano diário para ${planningData.date} salvo com sucesso!`, "success");
-      setTimeout(() => { // Fechar após um pequeno atraso para UX
+      setTimeout(() => {
         onClose();
-        setEditingPlan(null); // Limpa o plano de edição
+        setEditingPlan(null);
       }, 1500);
     } catch (error) {
       console.error("Erro ao salvar plano diário:", error);
@@ -120,7 +198,7 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
       <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-200">
         <button
-          onClick={() => { onClose(); setEditingPlan(null); }} // Ao fechar, limpa o plano de edição
+          onClick={() => { onClose(); setEditingPlan(null); }}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:text-gray-400 dark:hover:text-gray-100"
         >
           &times;
@@ -138,7 +216,6 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
               name="date"
               value={planningData.date}
               onChange={handleChange}
-              // Desabilita a edição da data se estiver editando um plano existente
               disabled={!!editingPlan}
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
             />
@@ -257,7 +334,7 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
           <div className="flex justify-end mt-6">
             <button
               type="button"
-              onClick={() => { onClose(); setEditingPlan(null); }} // Ao cancelar, limpa o plano de edição
+              onClick={() => { onClose(); setEditingPlan(null); }}
               className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
               disabled={isSaving}
             >
@@ -285,16 +362,18 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
 
 
 const DailyPlanningPage = () => {
-  const { user, db, appId, geminiApiKey } = useAuth(); // Adicionado geminiApiKey
+  const { user, db, appId, geminiApiKey } = useAuth();
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false); // Para mostrar/esconder o modal
-  const [editingPlan, setEditingPlan] = useState(null); // Para editar um plano específico
+  const [showForm, setShowForm] = useState(false);
+  const [editingPlan, setEditingPlan] = useState(null);
   const [alertState, setAlertState] = useState({ message: '', type: '', onConfirm: null, onCancel: null, show: false });
   const [isDeleting, setIsDeleting] = useState(false);
-  const [insightLoading, setInsightLoading] = useState(null); // Para gerenciar loading por card
-  const [currentInsight, setCurrentInsight] = useState(''); // Insight gerado
-  const [insightPlanDate, setInsightPlanDate] = useState(null); // Data do plano para o insight
+  const [insightLoading, setInsightLoading] = useState(null);
+  const [currentInsight, setCurrentInsight] = useState('');
+  const [insightPlanDate, setInsightPlanDate] = useState(null);
+  // NOVO: Estado para controlar a visualização do modal de detalhes
+  const [showingDetails, setShowingDetails] = useState(null); 
 
   const showAlert = (message, type, onConfirm = null, onCancel = null) => {
     setAlertState({ message, type, onConfirm, onCancel, show: true });
@@ -308,14 +387,12 @@ const DailyPlanningPage = () => {
   useEffect(() => {
     if (db && user && appId) {
       const userId = user.uid || "anonymous";
-      // Assume que os documentos são nomeados pela data (ex: 20250722)
       const plansCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/dailyPlans`);
-      // Ordena por data (document ID) para exibir do mais recente para o mais antigo
       const q = query(plansCollectionRef, orderBy('date', 'desc'));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const fetchedPlans = snapshot.docs.map(doc => ({
-          id: doc.id, // O ID do documento é a data formatada
+          id: doc.id,
           ...doc.data()
         }));
         setPlans(fetchedPlans);
@@ -330,11 +407,19 @@ const DailyPlanningPage = () => {
     }
   }, [db, user, appId]);
 
+  // Função para abrir o modal de edição
   const handleEdit = (plan) => {
     setEditingPlan(plan);
     setShowForm(true);
+    setShowingDetails(null); // Fecha o modal de detalhes se estiver aberto
   };
 
+  // Função para abrir o modal de visualização
+  const handleViewDetails = (plan) => {
+    setShowingDetails(plan);
+  };
+
+  // Função para deletar um plano
   const handleDelete = (planId, planDate) => {
     showAlert(
       `Tem certeza que deseja deletar o planejamento de ${planDate}?`,
@@ -348,6 +433,7 @@ const DailyPlanningPage = () => {
           try {
             await deleteDoc(docRef);
             showAlert("Planejamento deletado com sucesso!", "success");
+            setShowingDetails(null); // Fecha o modal de detalhes após deletar
           } catch (error) {
             console.error("Erro ao deletar planejamento:", error);
             showAlert("Erro ao deletar planejamento.", "error");
@@ -398,20 +484,19 @@ const DailyPlanningPage = () => {
       });
 
       const result = await response.json();
-      let generatedText = "Não foi possível gerar um insight para este plano. Continue firme!";
+      let generatedText = "Não foi possível gerar o insight para este plano. Continue firme!";
       if (result.candidates && result.candidates.length > 0 &&
           result.candidates[0].content && result.candidates[0].content.parts &&
           result.candidates[0].content.parts.length > 0) {
-        generatedText = result.candidates[0].content.parts[0].text;
+        generatedText = result.candidates[0].content.parts[0].text.trim();
       }
-
-      setCurrentInsight(generatedText);
+      showAlert(`Insight para ${plan.date}: ${generatedText}`, "info");
 
     } catch (error) {
-      console.error("Erro ao chamar a API Gemini para insight de planejamento:", error);
-      showAlert("Erro ao gerar insight. Verifique sua conexão ou tente mais tarde.", "error");
+      console.error("Erro ao gerar insight do plano:", error);
+      showAlert("Erro ao gerar insight do plano. Tente novamente mais tarde.", "error");
     } finally {
-      setInsightLoading(null); // Limpa o loading
+      setInsightLoading(null);
     }
   };
 
@@ -419,7 +504,8 @@ const DailyPlanningPage = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100 dark:bg-gray-900 transition-colors duration-300">
-        <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">Carregando planejamentos...</div>
+        <LoadingSpinner size="h-10 w-10" color="text-teal-600" />
+        <div className="text-lg font-semibold text-gray-700 dark:text-gray-300 ml-4">Carregando planejamentos...</div>
       </div>
     );
   }
@@ -434,7 +520,7 @@ const DailyPlanningPage = () => {
       {/* Botão para Adicionar Novo Planejamento */}
       <div className="flex justify-start mb-8">
         <button
-          onClick={() => { setShowForm(true); setEditingPlan(null); }} // Abre o modal para nova entrada
+          onClick={() => { setShowForm(true); setEditingPlan(null); }}
           className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base"
         >
           <i className="fas fa-plus-circle mr-2"></i> Adicionar Novo Planejamento
@@ -451,6 +537,19 @@ const DailyPlanningPage = () => {
           user={user}
           db={db}
           appId={appId}
+        />
+      )}
+
+      {/* NOVO: Modal de Visualização de Detalhes do Plano */}
+      {showingDetails && (
+        <ViewDailyPlanModal
+          plan={showingDetails}
+          onClose={() => setShowingDetails(null)}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          showAlert={showAlert}
+          insightLoading={insightLoading}
+          handleGenerateInsight={handleGenerateInsight}
         />
       )}
 
@@ -491,32 +590,25 @@ const DailyPlanningPage = () => {
                         <LoadingSpinner size="h-3 w-3" color="text-gray-600" /> Gerando insight...
                     </p>
                 ) : (
-                    currentInsight && insightPlanDate === plan.date && (
+                    currentInsight && insightPlanDate === plan.date ? (
                         <div className="bg-orange-100 p-3 rounded-md mt-3 text-sm sm:text-base dark:bg-orange-900 dark:text-orange-100">
                             <h5 className="font-semibold text-orange-800 mb-1 dark:text-orange-200">Insight do Dia:</h5>
                             <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-100" dangerouslySetInnerHTML={{ __html: currentInsight.replace(/\n/g, '<br/>') }}></div>
                         </div>
-                    )
+                    ) : null // Não mostra insight se não for para este card ou se o insight não for para esta data
                 )}
 
                 <div className="flex flex-wrap gap-2 sm:gap-3 mt-auto pt-4 border-t border-stone-200 dark:border-gray-600">
                   <button
-                    onClick={() => handleEdit(plan)}
-                    className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-500 text-white text-xs sm:text-sm rounded-md hover:bg-gray-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                    onClick={() => handleViewDetails(plan)} // NOVO: Botão Visualizar
+                    className="px-3 py-1 sm:px-4 sm:py-2 bg-blue-500 text-white text-xs sm:text-sm rounded-md hover:bg-blue-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(plan.id, plan.date)}
-                    className="px-3 py-1 sm:px-4 sm:py-2 bg-red-500 text-white text-xs sm:text-sm rounded-md hover:bg-red-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                    disabled={isDeleting}
-                  >
-                    {isDeleting ? <LoadingSpinner size="h-3 w-3 sm:h-4 sm:w-4" /> : 'Deletar'}
+                    Visualizar
                   </button>
                   <button
                     onClick={() => handleGenerateInsight(plan)}
                     className="px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9800] text-white text-xs sm:text-sm rounded-md hover:bg-orange-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 flex items-center justify-center"
-                    disabled={insightLoading === plan.id} // Desabilita apenas o botão do card atual
+                    disabled={insightLoading === plan.id}
                   >
                     {insightLoading === plan.id ? (
                       <LoadingSpinner size="h-3 w-3 sm:h-4 sm:w-4" />
