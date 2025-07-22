@@ -32,6 +32,11 @@ const JournalPage = ({ setCurrentPage }) => {
   const [currentInsight, setCurrentInsight] = useState("");
   const [insightEntryId, setInsightEntryId] = useState(null);
 
+  // NOVO: Estado para data e hora em tempo real
+  const [currentTime, setCurrentTime] = useState(new Date());
+  // NOVO: Estado para a frase de motivação
+  const [dailyMotivation, setDailyMotivation] = useState("Carregando sua motivação diária...");
+
   const showAlert = (message, type, onConfirm = null, onCancel = null) => {
     setAlertState({ message, type, onConfirm, onCancel, show: true });
   };
@@ -39,6 +44,75 @@ const JournalPage = ({ setCurrentPage }) => {
   const closeAlert = () => {
     setAlertState({ ...alertState, show: false });
   };
+
+  // NOVO: Efeito para atualizar o relógio a cada segundo
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // NOVO: Efeito para gerar a frase motivacional diária
+  useEffect(() => {
+    const fetchDailyMotivation = async () => {
+      if (!geminiApiKey || !user || user.isAnonymous) {
+        // Frase padrão ou convite para login se não houver API key ou usuário anônimo
+        setDailyMotivation(
+          user && user.isAnonymous
+            ? "Faça login com Google para sua dose diária de motivação!"
+            : "Bem-vindo ao Diário Web do Tutor!"
+        );
+        return;
+      }
+
+      const todayStr = new Date().toLocaleDateString("pt-BR");
+      const lastGenerated = localStorage.getItem(`dailyMotivationDate_${user.uid}`);
+      const storedPhrase = localStorage.getItem(`dailyMotivationPhrase_${user.uid}`);
+
+      if (lastGenerated === todayStr && storedPhrase) {
+        // Se já gerou hoje, usa a frase salva
+        setDailyMotivation(storedPhrase);
+        return;
+      }
+
+      setDailyMotivation("Gerando sua motivação do dia...");
+      try {
+        const prompt = `Gere uma única frase motivacional curta (máximo 15 palavras) para o dia de hoje, focando em autoconfiança, capacidade e superação de desafios para um usuário de um diário pessoal. Seja inspirador.`;
+        const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+        const payload = { contents: chatHistory };
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+        let generatedText = "Sua jornada diária começa com um passo de autoconfiança.";
+        if (
+          result.candidates &&
+          result.candidates.length > 0 &&
+          result.candidates[0].content &&
+          result.candidates[0].content.parts &&
+          result.candidates[0].content.parts.length > 0
+        ) {
+          generatedText = result.candidates[0].content.parts[0].text.trim();
+        }
+
+        setDailyMotivation(generatedText);
+        localStorage.setItem(`dailyMotivationDate_${user.uid}`, todayStr);
+        localStorage.setItem(`dailyMotivationPhrase_${user.uid}`, generatedText);
+
+      } catch (error) {
+        console.error("Erro ao gerar frase motivacional:", error);
+        setDailyMotivation("Não foi possível gerar a frase. Acredite em seu potencial!");
+      }
+    };
+
+    fetchDailyMotivation();
+  }, [geminiApiKey, user]); // Refetch quando API key ou usuário muda
 
   useEffect(() => {
     if (db && user && appId) {
@@ -230,55 +304,123 @@ const JournalPage = ({ setCurrentPage }) => {
     }
   };
 
+  // NOVO: Função para obter a saudação baseada na hora do dia
+  const getGreeting = () => {
+    const hours = currentTime.getHours();
+    if (hours < 12) return "Bom dia";
+    if (hours < 18) return "Boa tarde";
+    return "Boa noite";
+  };
+
+  // NOVO: Avatar padrão (se o usuário não tiver photoURL)
+  const defaultAvatar = "https://via.placeholder.com/150/007B8A/FFFFFF?text=MR"; // Um placeholder simples
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
       <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
         Meu Diário de Reflexão
       </h2>
-      <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
-        {user && user.isAnonymous ? (
-          <>
-            Você está usando o diário como usuário anônimo. Seus dados serão
-            armazenados apenas neste navegador. Para salvar permanentemente e
-            acessar de qualquer lugar, por favor,{" "}
-            <span
-              className="font-semibold text-blue-600 cursor-pointer hover:underline" // Adicionado hover:underline para indicar que é clicável
-              onClick={() => setCurrentPage("authScreen")} // <--- CONECTADO!
-            >
-              faça login com sua conta Gmail
-            </span>
-            .
-          </>
-        ) : (
-          <>
-            Bem-vindo(a), {user?.displayName || user?.email || "Usuário"}! Seu
-            ID de usuário é:{" "}
-            <span className="font-mono text-xs sm:text-sm bg-gray-100 p-1 rounded">
-              {user?.uid}
-            </span>
-          </>
-        )}
-      </p>
 
-      {showReminder && (
-        <div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mb-6 rounded-md flex flex-col sm:flex-row items-start sm:items-center justify-between animate-fade-in">
+      {/* NOVO: Welcome Card - A Nova Apresentação */}
+      <div className="bg-gradient-to-r from-[#007B8A] to-teal-600 rounded-xl shadow-xl p-6 sm:p-8 mb-8 text-white relative overflow-hidden transition-all duration-300">
+        {/* Padrão sutil de fundo (opcional, requer SVG ou imagem) */}
+        {/* <div className="absolute inset-0 bg-pattern opacity-10"></div> */}
+        <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6">
+          {/* Avatar do Usuário */}
+          <div className="flex-shrink-0">
+            <img
+              src={user?.photoURL || defaultAvatar}
+              alt={user?.displayName || "Usuário"}
+              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg object-cover"
+            />
+          </div>
+
+          {/* Mensagem de Boas-Vindas e Info */}
+          <div className="text-center md:text-left flex-grow">
+            {user && user.isAnonymous === false ? (
+              <>
+                <p className="text-sm font-light opacity-80 mb-1">
+                  {getGreeting()},
+                </p>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-2 leading-tight">
+                  {user?.displayName || user?.email || "Usuário"}!
+                </h3>
+                <p className="text-sm opacity-80 mb-2">
+                  {currentTime.toLocaleDateString("pt-BR", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                  {" | "}
+                  {currentTime.toLocaleTimeString("pt-BR")}
+                </p>
+                {/* Frase Motivacional */}
+                {dailyMotivation && (
+                  <p className="text-base font-medium mt-3 italic">
+                    "{dailyMotivation}"
+                  </p>
+                )}
+              </>
+            ) : (
+              // Conteúdo para Usuários Anônimos
+              <>
+                <p className="text-xl sm:text-2xl font-bold mb-2">
+                  Olá, Visitante!
+                </p>
+                <p className="text-sm sm:text-base opacity-90 mb-4">
+                  Você está usando o diário anonimamente. Para salvar
+                  permanentemente e acessar de qualquer lugar, por favor,{" "}
+                  <span
+                    className="font-bold text-white cursor-pointer hover:underline"
+                    onClick={() => setCurrentPage("authScreen")}
+                  >
+                    faça login com sua conta Gmail
+                  </span>
+                  .
+                </p>
+              </>
+            )}
+          </div>
+
+          {/* Atalhos Rápidos (Quick Actions) para Usuários Logados */}
+          {user && user.isAnonymous === false && (
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 md:self-end">
+              <button
+                onClick={() => setCurrentPage("dailyPlanning")}
+                className="px-4 py-2 bg-white text-[#007B8A] rounded-lg shadow-md hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+              >
+                Planejamento Diário
+              </button>
+              {showReminder && ( // Exibe o botão de "Fazer Entrada" aqui se for dia de lembrar
+                <button
+                  onClick={() => {
+                    setShowForm(true);
+                    setEditingEntry(null);
+                    setShowReminder(false);
+                  }}
+                  className="px-4 py-2 bg-[#FF9800] text-white rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50"
+                >
+                  Fazer Entrada Hoje
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Fim do Welcome Card */}
+
+      {/* A mensagem de Lembrete agora está integrada no Welcome Card para usuários logados.
+          Para usuários anônimos, a CTA para login já serve. Removido o showReminder principal para anônimos. */}
+      {user && user.isAnonymous === false && showReminder && !entries.some(entry => new Date(entry.timestamp?.toDate()).toLocaleDateString('pt-BR') === new Date().toLocaleDateString('pt-BR')) && (
+        <div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mb-6 rounded-md flex flex-col sm:flex-row items-start sm:items-center justify-between animate-fade-in dark:bg-orange-900 dark:bg-opacity-30 dark:text-orange-200">
           <div className="mb-2 sm:mb-0">
-            <p className="font-bold text-base sm:text-lg">Lembrete!</p>
+            <p className="font-bold text-base sm:text-lg">Atenção!</p>
             <p className="text-sm sm:text-base">
-              Você ainda não fez sua entrada no diário hoje. Que tal registrar
-              suas reflexões agora?
+              Você ainda não fez sua entrada no diário hoje. Não se esqueça de
+              registrar suas reflexões!
             </p>
           </div>
-          <button
-            onClick={() => {
-              setShowForm(true);
-              setEditingEntry(null);
-              setShowReminder(false);
-            }}
-            className="ml-0 sm:ml-4 px-4 py-2 bg-[#FF9800] text-white rounded-lg shadow-md hover:bg-orange-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 text-sm sm:text-base w-full sm:w-auto"
-          >
-            Fazer Entrada
-          </button>
         </div>
       )}
 
@@ -310,14 +452,14 @@ const JournalPage = ({ setCurrentPage }) => {
       )}
 
       <div className="mt-8 sm:mt-10">
-        <h3 className="text-lg sm:text-xl font-bold text-[#007B8A] mb-4">
+        <h3 className="text-lg sm:text-xl font-bold text-[#007B8A] mb-4 dark:text-teal-400">
           Minhas Entradas Anteriores
         </h3>
         {entries.length === 0 ? (
-          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-stone-50 border border-stone-200">
+          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-stone-50 border border-stone-200 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600">
             Nenhuma entrada de diário encontrada. Que tal{" "}
             <span
-              className="font-semibold text-[#007B8A] cursor-pointer hover:underline"
+              className="font-semibold text-[#007B8A] cursor-pointer hover:underline dark:text-teal-300"
               onClick={() => {
                 setShowForm(true);
                 setEditingEntry(null);
@@ -332,17 +474,17 @@ const JournalPage = ({ setCurrentPage }) => {
             {entries.map((entry) => (
               <div
                 key={entry.id}
-                className="bg-stone-50 p-4 sm:p-5 rounded-lg shadow-md border border-stone-200 transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:hover:shadow-lg"
+                className="bg-stone-50 p-4 sm:p-5 rounded-lg shadow-md border border-stone-200 transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               >
-                <p className="text-xs sm:text-sm text-gray-500 mb-2 dark:text-gray-200">
+                <p className="text-xs sm:text-sm text-gray-500 mb-2 dark:text-gray-400">
                   {new Date(entry.timestamp?.toDate()).toLocaleDateString(
                     "pt-BR"
                   )}
                 </p>
-                <h4 className="font-semibold text-base sm:text-lg text-gray-800 mb-3 dark:text-gray-200">
+                <h4 className="font-semibold text-base sm:text-lg text-gray-800 mb-3 dark:text-gray-100">
                   {entry.selectedCheckinEmotion || "Entrada sem título"}
                 </h4>
-                <p className="text-sm text-gray-700 line-clamp-3 mb-4 dark:text-gray-400">
+                <p className="text-sm text-gray-700 line-clamp-3 mb-4 dark:text-gray-200">
                   {entry.checkinDescription ||
                     entry.challengeDescription ||
                     "Nenhuma descrição."}
