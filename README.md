@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# Diário Web do Tutor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Status da Implantação](https://vercel.com/button?project-id=SEU_PROJET_ID_VERCEL&button=deploy)](https://vercel.com/SEU_USUARIO_VERCEL/diario-web-tutor)
+Um aplicativo web de diário pessoal desenvolvido para o curso de Tutoria Web do professor Mário Renan. Permite registrar reflexões diárias, planejar o dia e visualizar o progresso pessoal.
 
-## Available Scripts
+## ✨ Funcionalidades
 
-In the project directory, you can run:
+* **Registro Diário:** Faça check-ins emocionais, registre desafios, analise reações e declare seus valores.
+* **Análise de Sentimento (IA):** Obtenha insights sobre suas emoções através da análise de texto (integrado com a API Gemini).
+* **Planejamento Diário:** Utilize a matriz de Eisenhower para priorizar tarefas.
+* **Canvas de Microcarreiras:** Ferramenta para planejar seu desenvolvimento de carreira e habilidades.
+* **Dashboard de Dados:** Visualize tendências de sentimento e valores mais frequentes ao longo do tempo.
+* **Autenticação Segura:** Login via conta Google (Firebase Authentication).
+* **Persistência de Dados:** Todos os dados são armazenados de forma segura no Firebase Firestore.
 
-### `npm start`
+## 🚀 Tecnologias Utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* **Frontend:** React.js
+* **Estilização:** Tailwind CSS
+* **Backend como Serviço (BaaS):** Google Firebase (Authentication, Firestore)
+* **Inteligência Artificial:** Google Gemini API
+* **Implantação:** Vercel
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Configuração e Instalação (Desenvolvimento Local)
 
-### `npm test`
+Para rodar este projeto em sua máquina local:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/SEU_USUARIO_GITHUB/diario-web-tutor.git](https://github.com/SEU_USUARIO_GITHUB/diario-web-tutor.git)
+    cd diario-web-tutor
+    ```
 
-### `npm run build`
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3.  **Configurações do Firebase e Google Cloud:**
+    * Crie um projeto no [Console do Firebase](https://console.firebase.google.com/).
+    * Adicione um aplicativo Web e copie as credenciais de `firebaseConfig`.
+    * Habilite a **Authentication** (Google, Anônima).
+    * No [Google Cloud Platform](https://console.cloud.google.com/) (certificando-se de que o projeto Firebase correto está selecionado):
+        * Configure a **OAuth Consent Screen**.
+        * Em **Credentials**, edite o "ID do cliente OAuth 2.0" do tipo "Aplicativo da Web".
+        * Adicione `https://SEU_PROJECT_ID.firebaseapp.com/__/auth/handler` e `http://localhost:3000` aos "URIs de redirecionamento autorizados".
+    * Habilite a **Firestore Database** e configure as regras de segurança para `allow read, write: if request.auth != null && request.auth.uid == userId;` para seus dados de usuário.
+    * Crie uma chave de API para a **Gemini API** em [Google Cloud Platform](https://console.cloud.google.com/) > "APIs & Services" > "Credentials".
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4.  **Crie um arquivo `.env` na raiz do projeto** e preencha com suas credenciais:
+    ```dotenv
+    REACT_APP_FIREBASE_APP_ID='YOUR_FIREBASE_APP_ID'
+    REACT_APP_FIREBASE_CONFIG='{"apiKey": "YOUR_API_KEY", "authDomain": "YOUR_AUTH_DOMAIN", "projectId": "YOUR_PROJECT_ID", "storageBucket": "YOUR_STORAGE_BUCKET", "messagingSenderId": "YOUR_MESSAGING_SENDER_ID", "appId": "YOUR_APP_ID", "measurementId": "YOUR_MEASUREMENT_ID"}'
+    REACT_APP_INITIAL_AUTH_TOKEN=''
+    REACT_APP_GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm start
+    ```
 
-### `npm run eject`
+O aplicativo estará disponível em `http://localhost:3000`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🌐 Implantação
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+O projeto está configurado para implantação contínua via [Vercel](https://vercel.com/):
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1.  Crie uma conta na Vercel e conecte-a ao seu repositório GitHub.
+2.  Importe o repositório `diario-web-tutor`.
+3.  Configure as variáveis de ambiente na Vercel (correspondentes ao seu arquivo `.env`).
+4.  A Vercel construirá e implantará automaticamente o aplicativo em cada push para o `main` (ou `master`).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🤝 Contribuição
 
-## Learn More
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📄 Licença
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Este projeto está licenciado sob a Licença MIT.
 
-### Code Splitting
+## 📧 Contato
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Mário Renan Ferreira Feitosa - [mariovendasonline10k@gmail.com](mariovendasonline10k@gmail.com)
