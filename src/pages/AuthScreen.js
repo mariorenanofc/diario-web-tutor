@@ -18,11 +18,11 @@ const AuthScreen = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-150px)] bg-white rounded-xl shadow-lg p-4 sm:p-8 animate-fade-in">
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-700 mb-4 sm:mb-6 text-center">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-150px)] bg-white rounded-xl shadow-lg p-4 sm:p-8 animate-fade-in dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-700 mb-4 sm:mb-6 text-center dark:text-teal-400">
         Bem-vindo ao Diário Web!
       </h2>
-      <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 text-center max-w-prose">
+      <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 text-center max-w-prose dark:text-gray-300">
         Faça login com sua conta Gmail para começar a registrar suas reflexões
         diárias e acompanhar seu crescimento pessoal.
       </p>
@@ -30,7 +30,6 @@ const AuthScreen = () => {
         onClick={handleGoogleSignIn}
         className="flex items-center px-5 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-xl hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-base sm:text-lg"
       >
-
         <svg
           className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
           viewBox="0 0 24 24"
@@ -55,7 +54,7 @@ const AuthScreen = () => {
         </svg>
         Entrar com Google
       </button>
-      <p className="mt-4 text-sm text-gray-500 text-center">
+      <p className="mt-4 text-sm text-gray-500 text-center dark:text-gray-400">
         Seus dados serão armazenados de forma privada para sua conta.
       </p>
     </div>

@@ -138,9 +138,9 @@ const DashboardPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100">
+      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100 dark:bg-gray-900 transition-colors duration-300">
         <LoadingSpinner size="h-10 w-10" color="text-teal-600" />
-        <div className="text-lg font-semibold text-gray-700">
+        <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
           Analisando seus dados...
         </div>
       </div>
@@ -148,27 +148,27 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6">
+    <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
         Dashboard de Perspectivas e Previsões
       </h2>
 
       {entries.length === 0 ? (
-        <p className="text-gray-500 text-center text-base sm:text-lg py-10">
+        <p className="text-gray-500 text-center text-base sm:text-lg py-10 dark:text-gray-400">
           Comece a adicionar entradas no seu diário para ver suas perspectivas e
           previsões aqui!
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
+          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">
               Resumo Geral
             </h3>
-            <p className="text-sm sm:text-base text-gray-700 mb-2">
+            <p className="text-sm sm:text-base text-gray-700 mb-2 dark:text-gray-300">
               Total de entradas:{" "}
               <span className="font-bold">{totalEntries}</span>
             </p>
-            <p className="text-sm sm:text-base text-gray-700 mb-2">
+            <p className="text-sm sm:text-base text-gray-700 mb-2 dark:text-gray-300">
               Sentimento médio (Check-in):{" "}
               <span className="font-bold">
                 {sentimentTrend.length > 0
@@ -183,8 +183,8 @@ const DashboardPage = () => {
             </p>
           </div>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
+          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">
               Meus Valores Mais Frequentes
             </h3>
             {commonValuesData.length > 0 ? (
@@ -193,30 +193,23 @@ const DashboardPage = () => {
                   data={commonValuesData}
                   margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="name"
-                    interval={0}
-                    angle={-30}
-                    textAnchor="end"
-                    height={60}
-                    style={{ fontSize: "0.75rem" }}
-                  />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" /> {/* Cor da grade para dark mode */}
+                  <XAxis dataKey="name" interval={0} angle={-30} textAnchor="end" height={60} style={{ fontSize: "0.75rem", fill: '#D1D5DB' }} /> {/* Cor do texto do eixo X */}
+                  <YAxis style={{ fill: '#D1D5DB' }} /> {/* Cor do texto do eixo Y */}
+                  <Tooltip contentStyle={{ backgroundColor: '#4B5563', border: 'none', color: '#D1D5DB' }} /> {/* Estilo do tooltip */}
+                  <Legend wrapperStyle={{ color: '#D1D5DB' }} /> {/* Estilo da legenda */}
                   <Bar dataKey="count" fill="#007B8A" />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-sm sm:text-base text-gray-500">
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
                 Nenhum valor registrado ainda.
               </p>
             )}
           </div>
 
-          <div className="md:col-span-2 bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
+          <div className="md:col-span-2 bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">
               Tendência de Sentimento ao Longo do Tempo
             </h3>
             {sentimentTrend.length > 0 ? (
@@ -225,11 +218,11 @@ const DashboardPage = () => {
                   data={sentimentTrend}
                   margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" style={{ fontSize: "0.75rem" }} />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" /> {/* Cor da grade para dark mode */}
+                  <XAxis dataKey="date" style={{ fontSize: "0.75rem", fill: '#D1D5DB' }} /> {/* Cor do texto do eixo X */}
+                  <YAxis style={{ fill: '#D1D5DB' }} /> {/* Cor do texto do eixo Y */}
+                  <Tooltip contentStyle={{ backgroundColor: '#4B5563', border: 'none', color: '#D1D5DB' }} /> {/* Estilo do tooltip */}
+                  <Legend wrapperStyle={{ color: '#D1D5DB' }} /> {/* Estilo da legenda */}
                   <Line
                     type="monotone"
                     dataKey="sentiment"
@@ -239,41 +232,41 @@ const DashboardPage = () => {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-sm sm:text-base text-gray-500">
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
                 Dados insuficientes para gerar o gráfico de sentimento.
               </p>
             )}
           </div>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
+          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">
               Minhas Metas Futuras
             </h3>
             {futureGoals.length > 0 ? (
-              <ul className="list-disc list-inside text-sm sm:text-base text-gray-700 space-y-1">
+              <ul className="list-disc list-inside text-sm sm:text-base text-gray-700 space-y-1 dark:text-gray-300">
                 {futureGoals.map((goal, index) => (
                   <li key={index}>{goal}</li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm sm:text-base text-gray-500">
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
                 Nenhuma meta futura registrada ainda.
               </p>
             )}
           </div>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
+          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 shadow-md transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">
               Compromissos Recentes
             </h3>
             {recentCommitments.length > 0 ? (
-              <ul className="list-disc list-inside text-sm sm:text-base text-gray-700 space-y-1">
+              <ul className="list-disc list-inside text-sm sm:text-base text-gray-700 space-y-1 dark:text-gray-300">
                 {recentCommitments.map((commitment, index) => (
                   <li key={index}>{commitment}</li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm sm:text-base text-gray-500">
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
                 Nenhum compromisso recente registrado.
               </p>
             )}

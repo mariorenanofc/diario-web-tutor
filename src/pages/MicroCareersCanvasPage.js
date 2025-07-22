@@ -139,108 +139,79 @@ const MicroCareersCanvasPage = () => {
     );
   }
 
-  return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6">
-        Meu Canvas de Microcarreiras
-      </h2>
-      <p className="text-sm sm:text-base text-gray-600 mb-6">
+   return (
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">Meu Canvas de Microcarreiras</h2>
+      <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
         Destaque sua inovação e planeje seu desenvolvimento de carreira.
       </p>
 
       {alertState.show && <AlertDialog {...alertState} onClose={closeAlert} />}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {formErrors.general && (
-          <p className="text-red-500 text-sm mb-4">{formErrors.general}</p>
-        )}
+        {formErrors.general && <p className="text-red-500 text-sm mb-4">{formErrors.general}</p>}
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
-          <label
-            htmlFor="possibleAreas"
-            className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
-          >
-            Áreas de atuação possíveis:
-          </label>
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+          <label htmlFor="possibleAreas" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Áreas de atuação possíveis:</label>
           <textarea
             id="possibleAreas"
             name="possibleAreas"
             value={canvasData.possibleAreas}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
             placeholder="Liste as áreas de atuação possíveis para você."
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
-          <label
-            htmlFor="developedSkills"
-            className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
-          >
-            Habilidades já desenvolvidas:
-          </label>
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+          <label htmlFor="developedSkills" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Habilidades já desenvolvidas:</label>
           <textarea
             id="developedSkills"
             name="developedSkills"
             value={canvasData.developedSkills}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
             placeholder="Liste as habilidades que você já desenvolveu e utiliza na prática."
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
-          <label
-            htmlFor="skillsToDevelop"
-            className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
-          >
-            Habilidades a desenvolver:
-          </label>
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+          <label htmlFor="skillsToDevelop" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Habilidades a desenvolver:</label>
           <textarea
             id="skillsToDevelop"
             name="skillsToDevelop"
             value={canvasData.skillsToDevelop}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
             placeholder="Que habilidades serão necessárias para o seu momento atual e futuro?"
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
-          <label
-            htmlFor="actionPlan"
-            className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
-          >
-            Plano de Ação:
-          </label>
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+          <label htmlFor="actionPlan" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Plano de Ação:</label>
           <textarea
             id="actionPlan"
             name="actionPlan"
             value={canvasData.actionPlan}
             onChange={handleChange}
             rows="4"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
             placeholder="Inclua passos práticos para alcançar e desenvolver as habilidades necessárias ao futuro."
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
-          <label
-            htmlFor="visionOfSuccess"
-            className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
-          >
-            Minha visão de sucesso:
-          </label>
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+          <label htmlFor="visionOfSuccess" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Minha visão de sucesso:</label>
           <textarea
             id="visionOfSuccess"
             name="visionOfSuccess"
             value={canvasData.visionOfSuccess}
             onChange={handleChange}
             rows="4"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
             placeholder="Descreva aqui o que é sucesso para você."
           ></textarea>
         </div>
@@ -254,7 +225,7 @@ const MicroCareersCanvasPage = () => {
             {isSaving ? (
               <LoadingSpinner size="h-4 w-4 sm:h-5 sm:w-5" />
             ) : (
-              "Salvar Canvas"
+              'Salvar Canvas'
             )}
           </button>
         </div>

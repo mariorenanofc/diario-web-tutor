@@ -5,7 +5,7 @@ import AlertDialog from "../components/common/AlertDialog";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 
 const ProfilePage = () => {
-  const { user, db, appId } = useAuth(); // <--- OBTÉM appId DO CONTEXTO
+  const { user, db, appId, theme, setTheme } = useAuth(); // <--- OBTÉM theme E setTheme DO CONTEXTO
   const [profileData, setProfileData] = useState({
     name: "",
     email: "",
@@ -166,6 +166,11 @@ const ProfilePage = () => {
     }
   };
 
+  // Função para alternar o tema
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100">
@@ -177,21 +182,32 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300"> {/* Aplica estilos de tema aqui */}
+      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
         Meu Perfil
       </h2>
-      <p className="text-sm sm:text-base text-gray-600 mb-6">
+      <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
         Aqui você pode visualizar e editar suas informações pessoais,
         inspirações e detalhes de formação.
       </p>
 
       {alertState.show && <AlertDialog {...alertState} onClose={closeAlert} />}
 
+      {/* Botão de Trocar Tema */}
+      <div className="mb-6 flex justify-end">
+        <button
+          onClick={toggleTheme}
+          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg shadow-md hover:bg-gray-300 transition duration-300
+                     dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+        >
+          {theme === 'light' ? 'Mudar para Tema Escuro 🌙' : 'Mudar para Tema Claro ☀️'}
+        </button>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
               Nome:
             </label>
             {isEditing ? (
@@ -200,17 +216,17 @@ const ProfilePage = () => {
                 name="name"
                 value={profileData.name}
                 onChange={handleChange}
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 disabled={user?.displayName ? true : false}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800">
+              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                 {profileData.name || "Não informado"}
               </p>
             )}
           </div>
           <div>
-            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
               E-mail:
             </label>
             {isEditing ? (
@@ -219,13 +235,13 @@ const ProfilePage = () => {
                 name="email"
                 value={profileData.email}
                 onChange={handleChange}
-                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base ${
+                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
                   formErrors.email ? "border-red-500" : "border-gray-300"
                 }`}
                 disabled={user?.email ? true : false}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800">
+              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                 {profileData.email || "Não informado"}
               </p>
             )}
@@ -236,7 +252,7 @@ const ProfilePage = () => {
             )}
           </div>
           <div>
-            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
               Data de Nascimento:
             </label>
             {isEditing ? (
@@ -245,12 +261,12 @@ const ProfilePage = () => {
                 name="birthDate"
                 value={profileData.birthDate}
                 onChange={handleChange}
-                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base ${
+                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
                   formErrors.birthDate ? "border-red-500" : "border-gray-300"
                 }`}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800">
+              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                 {profileData.birthDate || "Não informado"}
               </p>
             )}
@@ -261,7 +277,7 @@ const ProfilePage = () => {
             )}
           </div>
           <div>
-            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
               Telefone:
             </label>
             {isEditing ? (
@@ -270,12 +286,12 @@ const ProfilePage = () => {
                 name="phone"
                 value={profileData.phone}
                 onChange={handleChange}
-                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base ${
+                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
                   formErrors.phone ? "border-red-500" : "border-gray-300"
                 }`}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800">
+              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                 {profileData.phone || "Não informado"}
               </p>
             )}
@@ -286,7 +302,7 @@ const ProfilePage = () => {
             )}
           </div>
           <div>
-            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
               Cidade/Estado:
             </label>
             {isEditing ? (
@@ -295,16 +311,16 @@ const ProfilePage = () => {
                 name="cityState"
                 value={profileData.cityState}
                 onChange={handleChange}
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800">
+              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                 {profileData.cityState || "Não informado"}
               </p>
             )}
           </div>
           <div>
-            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+            <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
               Formação:
             </label>
             {isEditing ? (
@@ -313,10 +329,10 @@ const ProfilePage = () => {
                 name="education"
                 value={profileData.education}
                 onChange={handleChange}
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800">
+              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                 {profileData.education || "Não informado"}
               </p>
             )}
@@ -324,7 +340,7 @@ const ProfilePage = () => {
         </div>
 
         <div>
-          <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+          <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
             O que te define?
           </label>
           {isEditing ? (
@@ -333,17 +349,17 @@ const ProfilePage = () => {
               value={profileData.whatDefinesYou}
               onChange={handleChange}
               rows="3"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             ></textarea>
           ) : (
-            <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 whitespace-pre-wrap">
+            <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 whitespace-pre-wrap dark:bg-gray-700 dark:text-gray-100">
               {profileData.whatDefinesYou || "Não informado"}
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
+          <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">
             Inspirações para o futuro:
           </label>
           {isEditing ? (
@@ -352,10 +368,10 @@ const ProfilePage = () => {
               value={profileData.futureInspirations}
               onChange={handleChange}
               rows="3"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             ></textarea>
           ) : (
-            <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 whitespace-pre-wrap">
+            <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 whitespace-pre-wrap dark:bg-gray-700 dark:text-gray-100">
               {profileData.futureInspirations || "Não informado"}
             </p>
           )}

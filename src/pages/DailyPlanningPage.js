@@ -162,21 +162,21 @@ const DailyPlanningPage = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-100 transition-colors duration-300">
       <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6">
         Planejamento Diário
       </h2>
-      <p className="text-sm sm:text-base text-gray-600 mb-6">
+      <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-100">
         Organize suas tarefas e prioridades do dia.
       </p>
 
       {alertState.show && <AlertDialog {...alertState} onClose={closeAlert} />}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
+      <form onSubmit={handleSubmit} className="space-y-6 ">
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 dark:border-gray-700">
           <label
             htmlFor="planDate"
-            className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
+            className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-200"
           >
             Dia e Data:
           </label>
@@ -186,15 +186,15 @@ const DailyPlanningPage = () => {
             name="date"
             value={planningData.date}
             onChange={handleChange}
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
           />
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
           <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
             Técnica da Matriz de Eisenhower
           </h3>
-          <p className="text-sm sm:text-base text-gray-600 mb-4">
+          <p className="text-sm sm:text-base text-gray-600 mb-4 dark:text-gray-200">
             Prioridades do dia:
           </p>
           {formErrors.general && (
@@ -202,8 +202,8 @@ const DailyPlanningPage = () => {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="border border-gray-300 rounded-md p-3 bg-white">
-              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2">
+            <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
+              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-200">
                 1. Urgente e Importante
               </h5>
               <textarea
@@ -211,12 +211,12 @@ const DailyPlanningPage = () => {
                 value={planningData.urgentImportant}
                 onChange={handleChange}
                 rows="4"
-                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                 placeholder="Faça agora (Crise, Prazos)"
               ></textarea>
             </div>
-            <div className="border border-gray-300 rounded-md p-3 bg-white">
-              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2">
+            <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-900  dark:border-gray-700">
+              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-100">
                 2. Não Urgente e Importante
               </h5>
               <textarea
@@ -224,12 +224,12 @@ const DailyPlanningPage = () => {
                 value={planningData.notUrgentImportant}
                 onChange={handleChange}
                 rows="4"
-                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                 placeholder="Decida quando fazer (Planejamento, Prevenção)"
               ></textarea>
             </div>
-            <div className="border border-gray-300 rounded-md p-3 bg-white">
-              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2">
+            <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
+              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-200">
                 3. Urgente e Não Importante
               </h5>
               <textarea
@@ -237,12 +237,12 @@ const DailyPlanningPage = () => {
                 value={planningData.urgentNotImportant}
                 onChange={handleChange}
                 rows="4"
-                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                 placeholder="Delegue (Interrupções, Algumas reuniões)"
               ></textarea>
             </div>
-            <div className="border border-gray-300 rounded-md p-3 bg-white">
-              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2">
+            <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
+              <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-200">
                 4. Não Urgente e Não Importante
               </h5>
               <textarea
@@ -250,28 +250,28 @@ const DailyPlanningPage = () => {
                 value={planningData.notUrgentNotImportant}
                 onChange={handleChange}
                 rows="4"
-                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+                className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                 placeholder="Elimine (Distrações, Perda de tempo)"
               ></textarea>
             </div>
           </div>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
+        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
           <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
             Programação Diária (blocos de tempo)
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {timeSlots.map((time, index) => (
               <div key={time} className="flex items-center gap-2">
-                <label className="text-sm sm:text-base font-medium text-gray-700 w-16">
+                <label className="text-sm sm:text-base font-medium text-gray-700 w- dark:text-gray-200">
                   {time}
                 </label>
                 <input
                   type="text"
                   value={planningData.dailySchedule[index]}
                   onChange={(e) => handleScheduleChange(index, e.target.value)}
-                  className="flex-1 p-2 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+                  className="flex-1 p-2 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                   placeholder="Atividade"
                 />
               </div>
@@ -279,11 +279,11 @@ const DailyPlanningPage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
             <label
               htmlFor="notes"
-              className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
+              className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-200"
             >
               Anotações:
             </label>
@@ -293,13 +293,13 @@ const DailyPlanningPage = () => {
               value={planningData.notes}
               onChange={handleChange}
               rows="4"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
             ></textarea>
           </div>
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200">
+          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
             <label
               htmlFor="tasks"
-              className="block text-sm sm:text-base font-medium text-gray-700 mb-1"
+              className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-200"
             >
               Tarefas (Não esquecer):
             </label>
@@ -309,7 +309,7 @@ const DailyPlanningPage = () => {
               value={planningData.tasks}
               onChange={handleChange}
               rows="4"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
             ></textarea>
           </div>
         </div>

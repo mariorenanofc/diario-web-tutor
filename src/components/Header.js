@@ -32,13 +32,13 @@ const Header = ({ setCurrentPage, currentPage }) => { // Recebe currentPage
   );
 
   return (
-    <header className="bg-white shadow-lg rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center mb-8">
+    <header className="bg-white shadow-lg rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center mb-8 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
       <div className="flex justify-between items-center w-full sm:w-auto mb-4 sm:mb-0">
         <div className="text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#007B8A] transition-all duration-300">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#007B8A] transition-all duration-300 dark:text-teal-400">
             Diário Web do Tutor
           </h1>
-          <p className="text-sm text-gray-600">Por Mário Renan</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">Por Mário Renan</p>
         </div>
         {/* Botão Hambúrguer para Mobile */}
         <button
@@ -67,7 +67,7 @@ const Header = ({ setCurrentPage, currentPage }) => { // Recebe currentPage
         className={`
           flex flex-col sm:flex-row flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 w-full sm:w-auto
           ${isMenuOpen ? "block" : "hidden sm:flex"}
-          mt-4 sm:mt-0 p-4 sm:p-0 rounded-lg sm:rounded-none bg-gray-50 sm:bg-transparent
+          mt-4 sm:mt-0 p-4 sm:p-0 rounded-lg sm:rounded-none bg-gray-50 sm:bg-transparent dark:bg-gray-700 dark:text-gray-100 transition-colors duration-300
         `}
       >
         <NavButton pageName="journal" label="Meu Diário" bgColor="bg-[#007B8A]" hoverBgColor="bg-teal-700" ringColor="teal-500" />

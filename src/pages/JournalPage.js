@@ -231,11 +231,11 @@ const JournalPage = ({ setCurrentPage }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
         Meu Diário de Reflexão
       </h2>
-      <p className="text-sm sm:text-base text-gray-600 mb-6">
+      <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
         {user && user.isAnonymous ? (
           <>
             Você está usando o diário como usuário anônimo. Seus dados serão
@@ -332,17 +332,17 @@ const JournalPage = ({ setCurrentPage }) => {
             {entries.map((entry) => (
               <div
                 key={entry.id}
-                className="bg-stone-50 p-4 sm:p-5 rounded-lg shadow-md border border-stone-200 transition-all duration-300 hover:shadow-xl"
+                className="bg-stone-50 p-4 sm:p-5 rounded-lg shadow-md border border-stone-200 transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:hover:shadow-lg"
               >
-                <p className="text-xs sm:text-sm text-gray-500 mb-2">
+                <p className="text-xs sm:text-sm text-gray-500 mb-2 dark:text-gray-200">
                   {new Date(entry.timestamp?.toDate()).toLocaleDateString(
                     "pt-BR"
                   )}
                 </p>
-                <h4 className="font-semibold text-base sm:text-lg text-gray-800 mb-3">
+                <h4 className="font-semibold text-base sm:text-lg text-gray-800 mb-3 dark:text-gray-200">
                   {entry.selectedCheckinEmotion || "Entrada sem título"}
                 </h4>
-                <p className="text-sm text-gray-700 line-clamp-3 mb-4">
+                <p className="text-sm text-gray-700 line-clamp-3 mb-4 dark:text-gray-400">
                   {entry.checkinDescription ||
                     entry.challengeDescription ||
                     "Nenhuma descrição."}
