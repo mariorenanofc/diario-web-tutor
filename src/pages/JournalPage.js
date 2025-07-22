@@ -42,7 +42,6 @@ const JournalPage = ({ setCurrentPage }) => {
 
   useEffect(() => {
     if (db && user && appId) {
-      // Garante que appId está disponível
       const userId = user.uid || "anonymous";
       const entriesCollectionRef = collection(
         db,
@@ -96,7 +95,6 @@ const JournalPage = ({ setCurrentPage }) => {
         closeAlert();
         setIsDeleting(true);
         if (db && user && appId) {
-          // Garante que appId está disponível
           const userId = user.uid || "anonymous";
           const docRef = doc(
             db,
@@ -122,7 +120,6 @@ const JournalPage = ({ setCurrentPage }) => {
 
   const handleExportData = async () => {
     if (!db || !user || !appId) {
-      // Garante que appId está disponível
       showAlert(
         "Usuário não autenticado, banco de dados não disponível ou appId ausente para exportação.",
         "error"
@@ -169,7 +166,6 @@ const JournalPage = ({ setCurrentPage }) => {
     setInsightEntryId(entry.id);
 
     if (!geminiApiKey) {
-      // Garante que a chave da API Gemini está disponível
       showAlert("Erro: Chave da API Gemini não configurada.", "error");
       setInsightLoading(false);
       return;
@@ -246,7 +242,7 @@ const JournalPage = ({ setCurrentPage }) => {
             armazenados apenas neste navegador. Para salvar permanentemente e
             acessar de qualquer lugar, por favor,{" "}
             <span
-              className="font-semibold text-blue-600 cursor-pointer hover:underline" // Adicione hover:underline para indicar que é clicável
+              className="font-semibold text-blue-600 cursor-pointer hover:underline" // Adicionado hover:underline para indicar que é clicável
               onClick={() => setCurrentPage("authScreen")} // <--- CONECTADO!
             >
               faça login com sua conta Gmail
@@ -318,9 +314,18 @@ const JournalPage = ({ setCurrentPage }) => {
           Minhas Entradas Anteriores
         </h3>
         {entries.length === 0 ? (
-          <p className="text-gray-500 text-sm sm:text-base">
-            Nenhuma entrada de diário encontrada. Comece a adicionar suas
-            reflexões!
+          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-stone-50 border border-stone-200">
+            Nenhuma entrada de diário encontrada. Que tal{" "}
+            <span
+              className="font-semibold text-[#007B8A] cursor-pointer hover:underline"
+              onClick={() => {
+                setShowForm(true);
+                setEditingEntry(null);
+              }}
+            >
+              adicionar sua primeira reflexão agora
+            </span>
+            ?
           </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">

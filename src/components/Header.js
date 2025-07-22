@@ -1,10 +1,11 @@
 // src/components/Header.js
-import React from "react";
+import React, { useState } from "react"; // Adicionado useState
 import { signOut } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
 
-const Header = ({ setCurrentPage }) => {
+const Header = ({ setCurrentPage, currentPage }) => { // Recebe currentPage
   const { user, auth } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para o menu mobile
 
   const handleLogout = async () => {
     if (auth) {
@@ -12,45 +13,68 @@ const Header = ({ setCurrentPage }) => {
     }
   };
 
+  const NavButton = ({ pageName, label, bgColor, hoverBgColor, ringColor }) => (
+    <button
+      onClick={() => {
+        setCurrentPage(pageName);
+        setIsMenuOpen(false); // Fecha o menu ao clicar em um item
+      }}
+      className={`
+        px-3 py-1 sm:px-4 sm:py-2 rounded-lg shadow-md
+        transition duration-300 ease-in-out transform hover:scale-105
+        focus:outline-none focus:ring-2 focus:ring-opacity-50 text-sm
+        ${pageName === currentPage ? 'bg-teal-700 text-white shadow-xl' : `${bgColor} text-white`}
+        ${pageName === currentPage ? 'focus:ring-teal-500' : `hover:${hoverBgColor} focus:ring-${ringColor}`}
+      `}
+    >
+      {label}
+    </button>
+  );
+
   return (
     <header className="bg-white shadow-lg rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center mb-8">
-      <div className="text-center sm:text-left mb-4 sm:mb-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#007B8A] transition-all duration-300">
-          Diário Web do Tutor
-        </h1>
-        <p className="text-sm text-gray-600">Por Mário Renan</p>
+      <div className="flex justify-between items-center w-full sm:w-auto mb-4 sm:mb-0">
+        <div className="text-center sm:text-left">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#007B8A] transition-all duration-300">
+            Diário Web do Tutor
+          </h1>
+          <p className="text-sm text-gray-600">Por Mário Renan</p>
+        </div>
+        {/* Botão Hambúrguer para Mobile */}
+        <button
+          className="sm:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+            ></path>
+          </svg>
+        </button>
       </div>
-      <nav className="flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 w-full sm:w-auto">
-        <button
-          onClick={() => setCurrentPage("journal")}
-          className="px-3 py-1 sm:px-4 sm:py-2 bg-[#007B8A] text-white rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm"
-        >
-          Meu Diário
-        </button>
-        <button
-          onClick={() => setCurrentPage("dailyPlanning")}
-          className="px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9800] text-white rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 text-sm"
-        >
-          Planejamento Diário
-        </button>
-        <button
-          onClick={() => setCurrentPage("microCareers")}
-          className="px-3 py-1 sm:px-4 sm:py-2 bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 text-sm"
-        >
-          Microcarreiras
-        </button>
-        <button
-          onClick={() => setCurrentPage("dashboard")}
-          className="px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9800] text-white rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 text-sm"
-        >
-          Dashboard
-        </button>
-        <button
-          onClick={() => setCurrentPage("profile")}
-          className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm"
-        >
-          Meu Perfil
-        </button>
+
+      {/* Navegação - visível no desktop, colapsável no mobile */}
+      <nav
+        className={`
+          flex flex-col sm:flex-row flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 w-full sm:w-auto
+          ${isMenuOpen ? "block" : "hidden sm:flex"}
+          mt-4 sm:mt-0 p-4 sm:p-0 rounded-lg sm:rounded-none bg-gray-50 sm:bg-transparent
+        `}
+      >
+        <NavButton pageName="journal" label="Meu Diário" bgColor="bg-[#007B8A]" hoverBgColor="bg-teal-700" ringColor="teal-500" />
+        <NavButton pageName="dailyPlanning" label="Planejamento Diário" bgColor="bg-[#FF9800]" hoverBgColor="bg-orange-600" ringColor="orange-500" />
+        <NavButton pageName="microCareers" label="Microcarreiras" bgColor="bg-purple-600" hoverBgColor="bg-purple-700" ringColor="purple-500" />
+        <NavButton pageName="dashboard" label="Dashboard" bgColor="bg-[#FF9800]" hoverBgColor="bg-orange-600" ringColor="orange-500" />
+        <NavButton pageName="profile" label="Meu Perfil" bgColor="bg-gray-600" hoverBgColor="bg-gray-700" ringColor="gray-500" />
         {user && user.isAnonymous === false && (
           <button
             onClick={handleLogout}

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import AlertDialog from "../components/common/AlertDialog"; // Certifique-se que AlertDialog está importado
 
 const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
-  const { user, db, appId, geminiApiKey } = useAuth(); // <--- OBTÉM appId E geminiApiKey DO CONTEXTO
+  const { user, db, appId, geminiApiKey } = useAuth();
   const [formData, setFormData] = useState({
     selectedCheckinEmotion: "",
     checkinDescription: "",
@@ -29,6 +30,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [goalSuggestionLoading, setGoalSuggestionLoading] = useState(false);
   const [suggestedGoalSteps, setSuggestedGoalSteps] = useState("");
+  const [activeSection, setActiveSection] = useState(1); // Novo estado para controlar a seção ativa
 
   const emotionOptions = [
     "Muito Feliz",
@@ -135,9 +137,11 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
 
   const validateForm = () => {
     const errors = {};
+    // Validação da Seção 1
     if (!formData.selectedCheckinEmotion.trim()) {
       errors.selectedCheckinEmotion = "Por favor, selecione sua emoção.";
     }
+    // Validação da Seção 2
     if (
       formData.challengeDescription.trim() &&
       formData.challengeDescription.trim().length < 10
@@ -152,16 +156,19 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
       errors.challengeFeelings =
         "Os sentimentos devem ter pelo menos 3 caracteres.";
     }
+    // Validação da Seção 3
     if (!formData.reactionOutcome.trim()) {
       errors.reactionOutcome =
         "Por favor, selecione o resultado da sua reação.";
     }
 
+    // Validação da Seção 4
     if (formData.selectedValues.length === 0 && !formData.customValue.trim()) {
       errors.selectedValues =
         "Por favor, selecione pelo menos um valor ou adicione um personalizado.";
     }
 
+    // Validação da Seção 5
     formData.successGoals.forEach((goal, index) => {
       if (goal.goal.trim() && !goal.relatedValue.trim()) {
         errors[
@@ -186,11 +193,19 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
 
     if (!validateForm()) {
       showAlert("Por favor, corrija os erros no formulário.", "error");
+      // Opcional: Rolagem para o primeiro erro ou seção com erro
+      const firstErrorField = Object.keys(formErrors)[0];
+      if (firstErrorField) {
+        // Encontra o elemento e rola para ele
+        const element = document.querySelector(`[name="${firstErrorField}"], [id="${firstErrorField}"]`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
       return;
     }
 
     if (!db || !user || !appId) {
-      // Garante que appId está disponível
       showAlert(
         "Erro: Usuário não autenticado, banco de dados não disponível ou appId ausente.",
         "error"
@@ -203,7 +218,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
     const entriesCollectionRef = collection(
       db,
       `artifacts/${appId}/users/${userId}/journalEntries`
-    ); // <--- USA appId AQUI
+    );
 
     const valuesToSave = [...formData.selectedValues];
     if (
@@ -219,7 +234,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
           db,
           `artifacts/${appId}/users/${userId}/journalEntries`,
           editingEntry.id
-        ); // <--- USA appId AQUI
+        );
         await updateDoc(docRef, {
           ...formData,
           values: valuesToSave,
@@ -275,7 +290,6 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
     }
 
     if (!geminiApiKey) {
-      // Garante que a chave da API Gemini está disponível
       showAlert("Erro: Chave da API Gemini não configurada.", "error");
       return;
     }
@@ -288,8 +302,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
       let chatHistory = [];
       chatHistory.push({ role: "user", parts: [{ text: prompt }] });
       const payload = { contents: chatHistory };
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`; // <--- USA geminiApiKey AQUI
-
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -326,6 +339,67 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
     }
   };
 
+  // Componente para uma seção colapsável
+  const CollapsibleSection = ({ title, children, sectionNumber, totalSections }) => {
+    const isOpen = activeSection === sectionNumber;
+    const hasError = Object.keys(formErrors).some(key => key.startsWith(getSectionFieldPrefix(sectionNumber)));
+
+    // Função auxiliar para determinar o prefixo dos campos da seção
+    function getSectionFieldPrefix(num) {
+      switch (num) {
+        case 1: return 'selectedCheckinEmotion';
+        case 2: return 'challenge';
+        case 3: return 'reaction';
+        case 4: return 'selectedValues';
+        case 5: return 'successGoals';
+        case 6: return 'commitment';
+        default: return '';
+      }
+    }
+
+    return (
+      <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300 relative">
+        <button
+          type="button"
+          className={`w-full text-left font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 flex justify-between items-center focus:outline-none ${hasError ? 'text-red-600' : ''}`}
+          onClick={() => setActiveSection(isOpen ? 0 : sectionNumber)} // Abre/fecha a seção
+        >
+          {title}
+          {hasError && <span className="ml-2 text-red-500 text-sm">(Corrigir erros)</span>}
+          <svg className={`w-5 h-5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        {isOpen && (
+          <div className="space-y-6 pt-4 border-t border-stone-200 mt-4">
+            {children}
+            {/* Botões de navegação entre seções */}
+            <div className="flex justify-between items-center mt-6">
+              {sectionNumber > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setActiveSection(sectionNumber - 1)}
+                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+                >
+                  Anterior
+                </button>
+              )}
+              {sectionNumber < totalSections && (
+                <button
+                  type="button"
+                  onClick={() => setActiveSection(sectionNumber + 1)}
+                  className="px-4 py-2 bg-[#007B8A] text-white rounded-lg hover:bg-teal-700 transition"
+                >
+                  Próximo
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
       <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out">
@@ -340,10 +414,12 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300">
-            <h4 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
-              1. Comece com um check-in
-            </h4>
+          {/* Indicador de progresso */}
+          <div className="text-center text-sm text-gray-600 font-semibold mb-4">
+            Passo {activeSection} de 6
+          </div>
+
+          <CollapsibleSection title="1. Comece com um check-in" sectionNumber={1} totalSections={6}>
             <p className="text-sm sm:text-base text-gray-600 mb-2">
               Pergunta-guia: Como estou hoje?
             </p>
@@ -385,12 +461,9 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
             <p className="text-xs text-gray-500 mt-1">
               Dica: Emoções não são certas ou erradas. São pistas.
             </p>
-          </div>
+          </CollapsibleSection>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300">
-            <h4 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
-              2. Reviva um desafio recente
-            </h4>
+          <CollapsibleSection title="2. Reviva um desafio recente" sectionNumber={2} totalSections={6}>
             <p className="text-sm sm:text-base text-gray-600 mb-2">
               Pergunta-guia: Qual situação me desafiou nos últimos dias?
             </p>
@@ -453,12 +526,9 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
             <p className="text-xs text-gray-500 mt-1">
               Dica: Seja honesto. Este diário é só seu.
             </p>
-          </div>
+          </CollapsibleSection>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300">
-            <h4 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
-              3. Analise sua reação
-            </h4>
+          <CollapsibleSection title="3. Analise sua reação" sectionNumber={3} totalSections={6}>
             <p className="text-sm sm:text-base text-gray-600 mb-2">
               Pergunta-guia: Por que reagi assim?
             </p>
@@ -520,12 +590,9 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
             <p className="text-xs text-gray-500 mt-1">
               Dica: Aqui mora o aprendizado.
             </p>
-          </div>
+          </CollapsibleSection>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300">
-            <h4 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
-              4. Declare seus valores
-            </h4>
+          <CollapsibleSection title="4. Declare seus valores" sectionNumber={4} totalSections={6}>
             <p className="text-sm sm:text-base text-gray-600 mb-2">
               Pergunta-guia: O que é importante para mim?
             </p>
@@ -590,32 +657,24 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   onChange={handleChange}
                   placeholder="Adicione um valor personalizado"
                   className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base ${
-                    formErrors.customValue
+                    formErrors.selectedValues // Este erro também pode cobrir customValue se nenhum valor for selecionado
                       ? "border-red-500"
                       : "border-gray-300"
                   }`}
                 />
-                {formErrors.customValue && (
+                {formErrors.selectedValues && (
                   <p className="text-red-500 text-sm mt-1">
-                    {formErrors.customValue}
+                    {formErrors.selectedValues}
                   </p>
                 )}
               </div>
             </div>
-            {formErrors.selectedValues && (
-              <p className="text-red-500 text-sm mt-1">
-                {formErrors.selectedValues}
-              </p>
-            )}
             <p className="text-xs text-gray-500 mt-1">
               Dica: Seus valores são bússolas. Eles orientam suas escolhas.
             </p>
-          </div>
+          </CollapsibleSection>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300">
-            <h4 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
-              5. Desenhe sua visão de sucesso
-            </h4>
+          <CollapsibleSection title="5. Desenhe sua visão de sucesso" sectionNumber={5} totalSections={6}>
             <p className="text-sm sm:text-base text-gray-600 mb-2">
               Pergunta-guia: Que pessoa quero me tornar?
             </p>
@@ -712,12 +771,9 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
             <p className="text-xs text-gray-500 mt-1">
               Dica: Sucesso real é aquele que faz sentido para você.
             </p>
-          </div>
+          </CollapsibleSection>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300">
-            <h4 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3">
-              6. Conclua com um compromisso
-            </h4>
+          <CollapsibleSection title="6. Conclua com um compromisso" sectionNumber={6} totalSections={6}>
             <p className="text-sm sm:text-base text-gray-600 mb-2">
               Pergunta-guia: Qual pequena ação vou tentar nos próximos dias?
             </p>
@@ -750,7 +806,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
             <p className="text-xs text-gray-500 mt-1">
               Dica: Pequenas mudanças geram grandes resultados.
             </p>
-          </div>
+          </CollapsibleSection>
 
           <div className="flex justify-end gap-3 sm:gap-4 mt-8">
             <button

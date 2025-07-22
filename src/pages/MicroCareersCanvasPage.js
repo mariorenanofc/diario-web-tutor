@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import AlertDialog from "../components/common/AlertDialog";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 
+
 const MicroCareersCanvasPage = () => {
   const { user, db, appId } = useAuth(); // <--- OBTÉM appId DO CONTEXTO
   const [canvasData, setCanvasData] = useState({

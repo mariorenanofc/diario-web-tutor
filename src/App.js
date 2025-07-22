@@ -11,7 +11,7 @@ import AuthScreen from './pages/AuthScreen'; // Já está importado
 import DashboardPage from './pages/DashboardPage';
 import JournalPage from './pages/JournalPage'; // Já está importado
 import DailyPlanningPage from './pages/DailyPlanningPage';
-import MicroCarrersCanvasPage from './pages/MicroCarresCanvasPage'; // Corrigido o nome do arquivo, como fizemos antes
+import MicroCareersCanvasPage from './pages/MicroCareersCanvasPage'; // Corrigido o nome do arquivo, como fizemos antes
 import ProfilePage from './pages/ProfilePage';
 
 function App() {
@@ -75,7 +75,7 @@ function App() {
                 {currentPage === 'dashboard' && <DashboardPage />}
                 {currentPage === 'profile' && <ProfilePage />}
                 {currentPage === 'dailyPlanning' && <DailyPlanningPage />}
-                {currentPage === 'microCareers' && <MicroCarrersCanvasPage />}
+                {currentPage === 'microCareers' && <MicroCareersCanvasPage />}
             </div>
         ) : currentPage === 'authScreen' ? ( // Se a página for AuthScreen ou se não houver usuário logado (nem anônimo)
             <AuthScreen />
