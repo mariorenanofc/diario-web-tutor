@@ -1,6 +1,6 @@
 # Diário Web do Tutor
 
-[![Status da Implantação](https://vercel.com/button?project-id=SEU_PROJET_ID_VERCEL&button=deploy)](https://vercel.com/SEU_USUARIO_VERCEL/diario-web-tutor)
+[![Status da Implantação](https://vercel.com/button?project-id=SEU_PROJET_ID_VERCEL&button=deploy)]([https://vercel.com/SEU_USUARIO_VERCEL/diario-web-tutor](https://vercel.com/mariorenanofcs-projects/diario-web-tutor))
 Um aplicativo web de diário pessoal desenvolvido para o curso de Tutoria Web do professor Mário Renan. Permite registrar reflexões diárias, planejar o dia e visualizar o progresso pessoal.
 
 ## ✨ Funcionalidades
@@ -27,7 +27,7 @@ Para rodar este projeto em sua máquina local:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/SEU_USUARIO_GITHUB/diario-web-tutor.git](https://github.com/SEU_USUARIO_GITHUB/diario-web-tutor.git)
+    git clone [https://github.com/mariorenanofc/diario-web-tutor.git](https://github.com/mariorenanofc/diario-web-tutor.git)
     cd diario-web-tutor
     ```
 
