@@ -115,7 +115,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-stone-100">
+      <div className="flex items-center justify-center min-h-screen bg-background-light">
         <div className="text-lg font-semibold text-gray-700">
           Carregando Diário Web...
         </div>
@@ -136,7 +136,7 @@ function App() {
         setTheme,
       }}
     >
-      <div className="min-h-screen bg-stone-100 font-inter dark:bg-gray-900 dark:text-gray-100 text-gray-900 p-4 sm:p-6 lg:p-8">
+      <div className="min-h-screen bg-background-light font-inter dark:bg-gray-900 dark:text-gray-primary text-black-text p-4 sm:p-6 lg:p-8">
         <Header setCurrentPage={setCurrentPage} currentPage={currentPage} />{" "}
         {/* Passe currentPage para Header */}
         {currentPage === "authScreen" ? (

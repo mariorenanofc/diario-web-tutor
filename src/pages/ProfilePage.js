@@ -173,7 +173,7 @@ const ProfilePage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100">
+      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-background-light">
         <div className="text-lg font-semibold text-gray-700">
           Carregando perfil...
         </div>
@@ -182,8 +182,8 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300"> {/* Aplica estilos de tema aqui */}
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-primary transition-colors duration-300"> {/* Aplica estilos de tema aqui */}
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-primary mb-6 dark:text-accent-green">
         Meu Perfil
       </h2>
       <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
@@ -198,7 +198,7 @@ const ProfilePage = () => {
         <button
           onClick={toggleTheme}
           className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg shadow-md hover:bg-gray-300 transition duration-300
-                     dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                     dark:bg-gray-700 dark:text-gray-primary dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
         >
           {theme === 'light' ? 'Mudar para Tema Escuro 🌙' : 'Mudar para Tema Claro ☀️'}
         </button>
@@ -216,11 +216,11 @@ const ProfilePage = () => {
                 name="name"
                 value={profileData.name}
                 onChange={handleChange}
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
                 disabled={user?.displayName ? true : false}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+              <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text dark:bg-gray-700 dark:text-gray-primary">
                 {profileData.name || "Não informado"}
               </p>
             )}
@@ -235,18 +235,18 @@ const ProfilePage = () => {
                 name="email"
                 value={profileData.email}
                 onChange={handleChange}
-                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
-                  formErrors.email ? "border-red-500" : "border-gray-300"
+                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary ${
+                  formErrors.email ? "border-accent-red" : "border-gray-300"
                 }`}
                 disabled={user?.email ? true : false}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+              <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text dark:bg-gray-700 dark:text-gray-primary">
                 {profileData.email || "Não informado"}
               </p>
             )}
             {formErrors.email && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">
+              <p className="text-accent-red text-xs sm:text-sm mt-1">
                 {formErrors.email}
               </p>
             )}
@@ -261,17 +261,17 @@ const ProfilePage = () => {
                 name="birthDate"
                 value={profileData.birthDate}
                 onChange={handleChange}
-                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
-                  formErrors.birthDate ? "border-red-500" : "border-gray-300"
+                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary ${
+                  formErrors.birthDate ? "border-accent-red" : "border-gray-300"
                 }`}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+              <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text dark:bg-gray-700 dark:text-gray-primary">
                 {profileData.birthDate || "Não informado"}
               </p>
             )}
             {formErrors.birthDate && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">
+              <p className="text-accent-red text-xs sm:text-sm mt-1">
                 {formErrors.birthDate}
               </p>
             )}
@@ -286,17 +286,17 @@ const ProfilePage = () => {
                 name="phone"
                 value={profileData.phone}
                 onChange={handleChange}
-                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 ${
-                  formErrors.phone ? "border-red-500" : "border-gray-300"
+                className={`w-full p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary ${
+                  formErrors.phone ? "border-accent-red" : "border-gray-300"
                 }`}
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+              <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text dark:bg-gray-700 dark:text-gray-primary">
                 {profileData.phone || "Não informado"}
               </p>
             )}
             {formErrors.phone && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">
+              <p className="text-accent-red text-xs sm:text-sm mt-1">
                 {formErrors.phone}
               </p>
             )}
@@ -311,10 +311,10 @@ const ProfilePage = () => {
                 name="cityState"
                 value={profileData.cityState}
                 onChange={handleChange}
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+              <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text dark:bg-gray-700 dark:text-gray-primary">
                 {profileData.cityState || "Não informado"}
               </p>
             )}
@@ -329,10 +329,10 @@ const ProfilePage = () => {
                 name="education"
                 value={profileData.education}
                 onChange={handleChange}
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
               />
             ) : (
-              <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+              <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text dark:bg-gray-700 dark:text-gray-primary">
                 {profileData.education || "Não informado"}
               </p>
             )}
@@ -349,10 +349,10 @@ const ProfilePage = () => {
               value={profileData.whatDefinesYou}
               onChange={handleChange}
               rows="3"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
             ></textarea>
           ) : (
-            <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 whitespace-pre-wrap dark:bg-gray-700 dark:text-gray-100">
+            <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text whitespace-pre-wrap dark:bg-gray-700 dark:text-gray-primary">
               {profileData.whatDefinesYou || "Não informado"}
             </p>
           )}
@@ -368,10 +368,10 @@ const ProfilePage = () => {
               value={profileData.futureInspirations}
               onChange={handleChange}
               rows="3"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
             ></textarea>
           ) : (
-            <p className="p-2 sm:p-3 bg-stone-100 rounded-md text-sm sm:text-base text-gray-800 whitespace-pre-wrap dark:bg-gray-700 dark:text-gray-100">
+            <p className="p-2 sm:p-3 bg-background-light rounded-md text-sm sm:text-base text-black-text whitespace-pre-wrap dark:bg-gray-700 dark:text-gray-primary">
               {profileData.futureInspirations || "Não informado"}
             </p>
           )}
@@ -390,7 +390,7 @@ const ProfilePage = () => {
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base"
+                className="px-5 py-2 sm:px-6 sm:py-3 bg-brand-primary text-white font-semibold rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base"
                 disabled={isSaving}
               >
                 {isSaving ? (
@@ -404,7 +404,7 @@ const ProfilePage = () => {
             <button
               type="button"
               onClick={handleEditClick}
-              className="px-5 py-2 sm:px-6 sm:py-3 bg-[#FF9800] text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 text-sm sm:text-base"
+              className="px-5 py-2 sm:px-6 sm:py-3 bg-accent-red text-white font-semibold rounded-lg shadow-md hover:bg-accent-red-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-opacity-50 text-sm sm:text-base"
             >
               Editar Perfil
             </button>

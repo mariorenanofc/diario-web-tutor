@@ -18,8 +18,8 @@ const AuthScreen = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-150px)] bg-white rounded-xl shadow-lg p-4 sm:p-8 animate-fade-in dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-700 mb-4 sm:mb-6 text-center dark:text-teal-400">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-150px)] bg-white rounded-xl shadow-lg p-4 sm:p-8 animate-fade-in dark:bg-gray-800 dark:text-gray-primary transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-700 mb-4 sm:mb-6 text-center dark:text-accent-green">
         Bem-vindo ao Diário Web!
       </h2>
       <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 text-center max-w-prose dark:text-gray-300">

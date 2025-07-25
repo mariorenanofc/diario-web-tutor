@@ -8,14 +8,14 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 const ViewDailyPlanModal = ({ plan, onClose, onEdit, onDelete, showAlert, insightLoading, handleGenerateInsight }) => {
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
-      <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-200">
+      <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-primary">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:text-gray-400 dark:hover:text-gray-100"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:text-gray-400 dark:hover:text-gray-primary"
         >
           &times;
         </button>
-        <h3 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-4 dark:text-teal-400">
+        <h3 className="text-xl sm:text-2xl font-bold text-brand-primary mb-4 dark:text-accent-green">
           Planejamento Diário: {new Date(plan.date).toLocaleDateString('pt-BR')}
         </h3>
         <p className="text-sm text-gray-600 mb-6 dark:text-gray-300">
@@ -23,43 +23,43 @@ const ViewDailyPlanModal = ({ plan, onClose, onEdit, onDelete, showAlert, insigh
         </p>
 
         <div className="space-y-4 text-gray-700 dark:text-gray-300">
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Urgente e Importante:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Urgente e Importante:</h5>
             <p className="text-sm dark:text-gray-200">{plan.urgentImportant || 'Nenhum item'}</p>
           </div>
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Não Urgente e Importante:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Não Urgente e Importante:</h5>
             <p className="text-sm dark:text-gray-200">{plan.notUrgentImportant || 'Nenhum item'}</p>
           </div>
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Urgente e Não Importante:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Urgente e Não Importante:</h5>
             <p className="text-sm dark:text-gray-200">{plan.urgentNotImportant || 'Nenhum item'}</p>
           </div>
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Não Urgente e Não Importante:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Não Urgente e Não Importante:</h5>
             <p className="text-sm dark:text-gray-200">{plan.notUrgentNotImportant || 'Nenhum item'}</p>
           </div>
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Programação Diária:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Programação Diária:</h5>
             <ul className="list-disc list-inside text-sm dark:text-gray-200">
               {plan.dailySchedule?.filter(s => s).map((item, i) => <li key={i}>{item}</li>) || 'Nenhuma programação.'}
             </ul>
           </div>
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Anotações:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Anotações:</h5>
             <p className="text-sm dark:text-gray-200">{plan.notes || 'Nenhuma anotação.'}</p>
           </div>
-          <div className="bg-stone-50 p-3 rounded-md dark:bg-gray-700">
-            <h5 className="font-semibold text-base text-gray-800 mb-1 dark:text-gray-100">Tarefas:</h5>
+          <div className="bg-background-light p-3 rounded-md dark:bg-gray-700">
+            <h5 className="font-semibold text-base text-black-text mb-1 dark:text-gray-primary">Tarefas:</h5>
             <p className="text-sm dark:text-gray-200">{plan.tasks || 'Nenhuma tarefa.'}</p>
           </div>
         </div>
 
         {/* Botões de Ação no final do modal de visualização */}
-        <div className="flex justify-end gap-3 sm:gap-4 mt-8 pt-4 border-t border-stone-200 dark:border-gray-600">
+        <div className="flex justify-end gap-3 sm:gap-4 mt-8 pt-4 border-t border-background-light dark:border-gray-600">
           <button
             onClick={onClose}
-            className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+            className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-primary dark:hover:bg-gray-600"
           >
             Fechar
           </button>
@@ -71,7 +71,7 @@ const ViewDailyPlanModal = ({ plan, onClose, onEdit, onDelete, showAlert, insigh
           </button>
           <button
             onClick={() => { onDelete(plan.id, plan.date); }} // Passa o ID e a data para exclusão
-            className="px-5 py-2 sm:px-6 sm:py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-sm sm:text-base"
+            className="px-5 py-2 sm:px-6 sm:py-3 bg-accent-red text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-opacity-50 text-sm sm:text-base"
           >
             Deletar Plano
           </button>
@@ -196,19 +196,19 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
-      <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-200">
+      <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative transform scale-100 opacity-100 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-primary">
         <button
           onClick={() => { onClose(); setEditingPlan(null); }}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:text-gray-400 dark:hover:text-gray-100"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:text-gray-400 dark:hover:text-gray-primary"
         >
           &times;
         </button>
-        <h3 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
+        <h3 className="text-xl sm:text-2xl font-bold text-brand-primary mb-6 dark:text-accent-green">
           {editingPlan ? `Editar Planejamento: ${editingPlan.date}` : "Novo Planejamento Diário"}
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+          <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
             <label htmlFor="planDate" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Dia e Data:</label>
             <input
               type="date"
@@ -217,65 +217,81 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
               value={planningData.date}
               onChange={handleChange}
               disabled={!!editingPlan}
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
             />
           </div>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">Técnica da Matriz de Eisenhower</h3>
+          <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
+            <h3 className="font-semibold text-lg sm:text-xl text-brand-primary mb-3 dark:text-accent-green">Técnica da Matriz de Eisenhower</h3>
             <p className="text-sm sm:text-base text-gray-600 mb-4 dark:text-gray-300">Prioridades do dia:</p>
-            {formErrors.general && <p className="text-red-500 text-sm mb-4">{formErrors.general}</p>}
+            {formErrors.general && <p className="text-accent-red text-sm mb-4">{formErrors.general}</p>}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-600 dark:border-gray-500">
-                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-100">1. Urgente e Importante</h5>
+                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-primary">1. Urgente e Importante</h5>
                 <textarea
                   name="urgentImportant"
                   value={planningData.urgentImportant}
                   onChange={handleChange}
                   rows="4"
-                  className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:placeholder-gray-400"
+                  className={`w-full p-2 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-primary dark:placeholder-gray-400 ${
+                    formErrors.urgentImportant
+                      ? "border-accent-red"
+                      : "border-gray-300"
+                  }`}
                   placeholder="Faça agora (Crise, Prazos)"
                 ></textarea>
               </div>
               <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-600 dark:border-gray-500">
-                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-100">2. Não Urgente e Importante</h5>
+                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-primary">2. Não Urgente e Importante</h5>
                 <textarea
                   name="notUrgentImportant"
                   value={planningData.notUrgentImportant}
                   onChange={handleChange}
                   rows="4"
-                  className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:placeholder-gray-400"
+                  className={`w-full p-2 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-primary dark:placeholder-gray-400 ${
+                    formErrors.notUrgentImportant
+                      ? "border-accent-red"
+                      : "border-gray-300"
+                  }`}
                   placeholder="Decida quando fazer (Planejamento, Prevenção)"
                 ></textarea>
               </div>
               <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-600 dark:border-gray-500">
-                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-100">3. Urgente e Não Importante</h5>
+                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-primary">3. Urgente e Não Importante</h5>
                 <textarea
                   name="urgentNotImportant"
                   value={planningData.urgentNotImportant}
                   onChange={handleChange}
                   rows="4"
-                  className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:placeholder-gray-400"
+                  className={`w-full p-2 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-primary dark:placeholder-gray-400 ${
+                    formErrors.urgentNotImportant
+                      ? "border-accent-red"
+                      : "border-gray-300"
+                  }`}
                   placeholder="Delegue (Interrupções, Algumas reuniões)"
                 ></textarea>
               </div>
               <div className="border border-gray-300 rounded-md p-3 bg-white dark:bg-gray-600 dark:border-gray-500">
-                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-100">4. Não Urgente e Não Importante</h5>
+                <h5 className="font-medium text-base sm:text-lg text-gray-700 mb-2 dark:text-gray-primary">4. Não Urgente e Não Importante</h5>
                 <textarea
                   name="notUrgentNotImportant"
                   value={planningData.notUrgentNotImportant}
                   onChange={handleChange}
                   rows="4"
-                  className="w-full p-2 border border-gray-200 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:placeholder-gray-400"
+                  className={`w-full p-2 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-primary dark:placeholder-gray-400 ${
+                    formErrors.notUrgentNotImportant
+                      ? "border-accent-red"
+                      : "border-gray-300"
+                  }`}
                   placeholder="Elimine (Distrações, Perda de tempo)"
                 ></textarea>
               </div>
             </div>
           </div>
 
-          <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
-            <h3 className="font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 dark:text-teal-400">
+          <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
+            <h3 className="font-semibold text-lg sm:text-xl text-brand-primary mb-3 dark:text-accent-green">
               Programação Diária (blocos de tempo)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -288,7 +304,7 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
                     type="text"
                     value={planningData.dailySchedule[index]}
                     onChange={(e) => handleScheduleChange(index, e.target.value)}
-                    className="flex-1 p-2 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                    className="flex-1 p-2 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
                     placeholder="Atividade"
                   />
                 </div>
@@ -297,7 +313,7 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+            <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
               <label
                 htmlFor="notes"
                 className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300"
@@ -310,10 +326,10 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
                 value={planningData.notes}
                 onChange={handleChange}
                 rows="4"
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
               ></textarea>
             </div>
-            <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+            <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
               <label
                 htmlFor="tasks"
                 className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300"
@@ -326,7 +342,7 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
                 value={planningData.tasks}
                 onChange={handleChange}
                 rows="4"
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
               ></textarea>
             </div>
           </div>
@@ -335,14 +351,14 @@ const DailyPlanningForm = ({ onClose, editingPlan, setEditingPlan, showAlert, us
             <button
               type="button"
               onClick={() => { onClose(); setEditingPlan(null); }}
-              className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+              className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-primary dark:hover:bg-gray-600"
               disabled={isSaving}
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base"
+              className="px-5 py-2 sm:px-6 sm:py-3 bg-brand-primary text-white font-semibold rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base"
               disabled={isSaving}
             >
               {isSaving ? (
@@ -503,16 +519,16 @@ const DailyPlanningPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100 dark:bg-gray-900 transition-colors duration-300">
-        <LoadingSpinner size="h-10 w-10" color="text-teal-600" />
-        <div className="text-lg font-semibold text-gray-700 dark:text-gray-300 ml-4">Carregando planejamentos...</div>
+      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-background-light dark:bg-gray-900 transition-colors duration-300">
+        <LoadingSpinner size="h-10 w-10" color="text-brand-primary" />
+        <div className="text-lg font-semibold text-gray-700 dark:text-gray-primary ml-4">Carregando planejamentos...</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">Meus Planejamentos Diários</h2>
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-primary transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-primary mb-6 dark:text-accent-green">Meus Planejamentos Diários</h2>
       <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
         Visualize seus planejamentos e como você se organizou em cada dia.
       </p>
@@ -521,7 +537,7 @@ const DailyPlanningPage = () => {
       <div className="flex justify-start mb-8">
         <button
           onClick={() => { setShowForm(true); setEditingPlan(null); }}
-          className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base"
+          className="px-5 py-2 sm:px-6 sm:py-3 bg-brand-primary text-white font-semibold rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base"
         >
           <i className="fas fa-plus-circle mr-2"></i> Adicionar Novo Planejamento
         </button>
@@ -555,12 +571,12 @@ const DailyPlanningPage = () => {
 
       {/* Lista de Cards de Planejamento */}
       <div className="mt-8 sm:mt-10">
-        <h3 className="text-lg sm:text-xl font-bold text-[#007B8A] mb-4 dark:text-teal-400">Histórico de Planejamentos</h3>
+        <h3 className="text-lg sm:text-xl font-bold text-brand-primary mb-4 dark:text-accent-green">Histórico de Planejamentos</h3>
         {plans.length === 0 ? (
-          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-stone-50 border border-stone-200 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600">
+          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-background-light border border-background-light dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600">
             Nenhum planejamento diário encontrado. Que tal{" "}
             <span
-              className="font-semibold text-[#007B8A] cursor-pointer hover:underline dark:text-teal-300"
+              className="font-semibold text-brand-primary cursor-pointer hover:underline dark:text-accent-green-light"
               onClick={() => { setShowForm(true); setEditingPlan(null); }}
             >
               adicionar seu primeiro planejamento
@@ -572,12 +588,12 @@ const DailyPlanningPage = () => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className="bg-stone-50 p-4 sm:p-5 rounded-lg shadow-md border border-stone-200 transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="bg-background-light p-4 sm:p-5 rounded-lg shadow-md border border-background-light transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
               >
                 <p className="text-xs sm:text-sm text-gray-500 mb-2 dark:text-gray-400">
                   Data: {new Date(plan.date).toLocaleDateString('pt-BR')}
                 </p>
-                <h4 className="font-semibold text-base sm:text-lg text-gray-800 mb-3 dark:text-gray-100">
+                <h4 className="font-semibold text-base sm:text-lg text-black-text mb-3 dark:text-gray-primary">
                   {plan.urgentImportant ? `Prioridade: ${plan.urgentImportant}` : 'Planejamento do Dia'}
                 </h4>
                 <p className="text-sm text-gray-700 line-clamp-3 mb-4 dark:text-gray-200">
@@ -591,14 +607,14 @@ const DailyPlanningPage = () => {
                     </p>
                 ) : (
                     currentInsight && insightPlanDate === plan.date ? (
-                        <div className="bg-orange-100 p-3 rounded-md mt-3 text-sm sm:text-base dark:bg-orange-900 dark:text-orange-100">
+                        <div className="bg-accent-green-light p-3 rounded-md mt-3 text-sm sm:text-base dark:bg-orange-900 dark:text-orange-100"> {/* Original orange, could be accent-green related */}
                             <h5 className="font-semibold text-orange-800 mb-1 dark:text-orange-200">Insight do Dia:</h5>
-                            <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-100" dangerouslySetInnerHTML={{ __html: currentInsight.replace(/\n/g, '<br/>') }}></div>
+                            <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-primary" dangerouslySetInnerHTML={{ __html: currentInsight.replace(/\n/g, '<br/>') }}></div>
                         </div>
                     ) : null // Não mostra insight se não for para este card ou se o insight não for para esta data
                 )}
 
-                <div className="flex flex-wrap gap-2 sm:gap-3 mt-auto pt-4 border-t border-stone-200 dark:border-gray-600">
+                <div className="flex flex-wrap gap-2 sm:gap-3 mt-auto pt-4 border-t border-background-light dark:border-gray-600">
                   <button
                     onClick={() => handleViewDetails(plan)} // NOVO: Botão Visualizar
                     className="px-3 py-1 sm:px-4 sm:py-2 bg-blue-500 text-white text-xs sm:text-sm rounded-md hover:bg-blue-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
@@ -607,7 +623,7 @@ const DailyPlanningPage = () => {
                   </button>
                   <button
                     onClick={() => handleGenerateInsight(plan)}
-                    className="px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9800] text-white text-xs sm:text-sm rounded-md hover:bg-orange-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 flex items-center justify-center"
+                    className="px-3 py-1 sm:px-4 sm:py-2 bg-accent-red text-white text-xs sm:text-sm rounded-md hover:bg-accent-red-dark transition duration-200 focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-opacity-50 flex items-center justify-center"
                     disabled={insightLoading === plan.id}
                   >
                     {insightLoading === plan.id ? (

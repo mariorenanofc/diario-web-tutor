@@ -131,7 +131,7 @@ const MicroCareersCanvasPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-stone-100">
+      <div className="flex items-center justify-center min-h-[calc(100vh-150px)] bg-background-light">
         <div className="text-lg font-semibold text-gray-700">
           Carregando Canvas de Microcarreiras...
         </div>
@@ -140,8 +140,8 @@ const MicroCareersCanvasPage = () => {
   }
 
    return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">Meu Canvas de Microcarreiras</h2>
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-primary transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-primary mb-6 dark:text-accent-green">Meu Canvas de Microcarreiras</h2>
       <p className="text-sm sm:text-base text-gray-600 mb-6 dark:text-gray-300">
         Destaque sua inovação e planeje seu desenvolvimento de carreira.
       </p>
@@ -149,9 +149,9 @@ const MicroCareersCanvasPage = () => {
       {alertState.show && <AlertDialog {...alertState} onClose={closeAlert} />}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {formErrors.general && <p className="text-red-500 text-sm mb-4">{formErrors.general}</p>}
+        {formErrors.general && <p className="text-accent-red text-sm mb-4">{formErrors.general}</p>}
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+        <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
           <label htmlFor="possibleAreas" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Áreas de atuação possíveis:</label>
           <textarea
             id="possibleAreas"
@@ -159,12 +159,12 @@ const MicroCareersCanvasPage = () => {
             value={canvasData.possibleAreas}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
             placeholder="Liste as áreas de atuação possíveis para você."
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+        <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
           <label htmlFor="developedSkills" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Habilidades já desenvolvidas:</label>
           <textarea
             id="developedSkills"
@@ -172,12 +172,12 @@ const MicroCareersCanvasPage = () => {
             value={canvasData.developedSkills}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
             placeholder="Liste as habilidades que você já desenvolveu e utiliza na prática."
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+        <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
           <label htmlFor="skillsToDevelop" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Habilidades a desenvolver:</label>
           <textarea
             id="skillsToDevelop"
@@ -185,12 +185,12 @@ const MicroCareersCanvasPage = () => {
             value={canvasData.skillsToDevelop}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
             placeholder="Que habilidades serão necessárias para o seu momento atual e futuro?"
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+        <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
           <label htmlFor="actionPlan" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Plano de Ação:</label>
           <textarea
             id="actionPlan"
@@ -198,12 +198,12 @@ const MicroCareersCanvasPage = () => {
             value={canvasData.actionPlan}
             onChange={handleChange}
             rows="4"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
             placeholder="Inclua passos práticos para alcançar e desenvolver as habilidades necessárias ao futuro."
           ></textarea>
         </div>
 
-        <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 dark:bg-gray-700 dark:border-gray-600">
+        <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light dark:bg-gray-700 dark:border-gray-600">
           <label htmlFor="visionOfSuccess" className="block text-sm sm:text-base font-medium text-gray-700 mb-1 dark:text-gray-300">Minha visão de sucesso:</label>
           <textarea
             id="visionOfSuccess"
@@ -211,7 +211,7 @@ const MicroCareersCanvasPage = () => {
             value={canvasData.visionOfSuccess}
             onChange={handleChange}
             rows="4"
-            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
             placeholder="Descreva aqui o que é sucesso para você."
           ></textarea>
         </div>
@@ -219,7 +219,7 @@ const MicroCareersCanvasPage = () => {
         <div className="flex justify-end mt-6">
           <button
             type="submit"
-            className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base"
+            className="px-5 py-2 sm:px-6 sm:py-3 bg-brand-primary text-white font-semibold rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base"
             disabled={isSaving}
           >
             {isSaving ? (

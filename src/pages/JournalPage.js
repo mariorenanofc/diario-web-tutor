@@ -313,16 +313,16 @@ const JournalPage = ({ setCurrentPage }) => {
   };
 
   // NOVO: Avatar padrão (se o usuário não tiver photoURL)
-  const defaultAvatar = "https://via.placeholder.com/150/007B8A/FFFFFF?text=MR"; // Um placeholder simples
+  const defaultAvatar = "https://via.placeholder.com/150/0E2F59/FFFFFF?text=MR"; // Updated placeholder with new primary color
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <h2 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6 dark:text-teal-400">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 dark:bg-gray-800 dark:text-gray-primary transition-colors duration-300">
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-primary mb-6 dark:text-accent-green">
         Meu Diário de Reflexão
       </h2>
 
       {/* NOVO: Welcome Card - A Nova Apresentação */}
-      <div className="bg-gradient-to-r from-[#007B8A] to-teal-600 rounded-xl shadow-xl p-6 sm:p-8 mb-8 text-white relative overflow-hidden transition-all duration-300">
+      <div className="bg-gradient-to-r from-brand-primary to-gray-dark rounded-xl shadow-xl p-6 sm:p-8 mb-8 text-white relative overflow-hidden transition-all duration-300">
         {/* Padrão sutil de fundo (opcional, requer SVG ou imagem) */}
         {/* <div className="absolute inset-0 bg-pattern opacity-10"></div> */}
         <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -388,7 +388,7 @@ const JournalPage = ({ setCurrentPage }) => {
             <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 md:self-end">
               <button
                 onClick={() => setCurrentPage("dailyPlanning")}
-                className="px-4 py-2 bg-white text-[#007B8A] rounded-lg shadow-md hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                className="px-4 py-2 bg-white text-brand-primary rounded-lg shadow-md hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
               >
                 Planejamento Diário
               </button>
@@ -399,7 +399,7 @@ const JournalPage = ({ setCurrentPage }) => {
                     setEditingEntry(null);
                     setShowReminder(false);
                   }}
-                  className="px-4 py-2 bg-[#FF9800] text-white rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50"
+                  className="px-4 py-2 bg-accent-red text-white rounded-lg shadow-md hover:bg-accent-red-dark transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-opacity-50"
                 >
                   Fazer Entrada Hoje
                 </button>
@@ -413,7 +413,7 @@ const JournalPage = ({ setCurrentPage }) => {
       {/* A mensagem de Lembrete agora está integrada no Welcome Card para usuários logados.
           Para usuários anônimos, a CTA para login já serve. Removido o showReminder principal para anônimos. */}
       {user && user.isAnonymous === false && showReminder && !entries.some(entry => new Date(entry.timestamp?.toDate()).toLocaleDateString('pt-BR') === new Date().toLocaleDateString('pt-BR')) && (
-        <div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mb-6 rounded-md flex flex-col sm:flex-row items-start sm:items-center justify-between animate-fade-in dark:bg-orange-900 dark:bg-opacity-30 dark:text-orange-200">
+        <div className="bg-orange-100 border-l-4 border-accent-red text-orange-700 p-4 mb-6 rounded-md flex flex-col sm:flex-row items-start sm:items-center justify-between animate-fade-in dark:bg-orange-900 dark:bg-opacity-30 dark:text-orange-200">
           <div className="mb-2 sm:mb-0">
             <p className="font-bold text-base sm:text-lg">Atenção!</p>
             <p className="text-sm sm:text-base">
@@ -430,7 +430,7 @@ const JournalPage = ({ setCurrentPage }) => {
             setShowForm(true);
             setEditingEntry(null);
           }}
-          className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base w-full sm:w-auto"
+          className="px-5 py-2 sm:px-6 sm:py-3 bg-brand-primary text-white font-semibold rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base w-full sm:w-auto"
         >
           <i className="fas fa-plus-circle mr-2"></i> Adicionar Nova Entrada
         </button>
@@ -452,14 +452,14 @@ const JournalPage = ({ setCurrentPage }) => {
       )}
 
       <div className="mt-8 sm:mt-10">
-        <h3 className="text-lg sm:text-xl font-bold text-[#007B8A] mb-4 dark:text-teal-400">
+        <h3 className="text-lg sm:text-xl font-bold text-brand-primary mb-4 dark:text-accent-green">
           Minhas Entradas Anteriores
         </h3>
         {entries.length === 0 ? (
-          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-stone-50 border border-stone-200 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600">
+          <p className="text-gray-500 text-sm sm:text-base text-center py-10 rounded-md bg-background-light border border-background-light dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600">
             Nenhuma entrada de diário encontrada. Que tal{" "}
             <span
-              className="font-semibold text-[#007B8A] cursor-pointer hover:underline dark:text-teal-300"
+              className="font-semibold text-brand-primary cursor-pointer hover:underline dark:text-accent-green-light"
               onClick={() => {
                 setShowForm(true);
                 setEditingEntry(null);
@@ -474,14 +474,14 @@ const JournalPage = ({ setCurrentPage }) => {
             {entries.map((entry) => (
               <div
                 key={entry.id}
-                className="bg-stone-50 p-4 sm:p-5 rounded-lg shadow-md border border-stone-200 transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="bg-background-light p-4 sm:p-5 rounded-lg shadow-md border border-background-light transition-all duration-300 hover:shadow-xl dark:bg-gray-700 dark:border-gray-600 dark:text-gray-primary"
               >
                 <p className="text-xs sm:text-sm text-gray-500 mb-2 dark:text-gray-400">
                   {new Date(entry.timestamp?.toDate()).toLocaleDateString(
                     "pt-BR"
                   )}
                 </p>
-                <h4 className="font-semibold text-base sm:text-lg text-gray-800 mb-3 dark:text-gray-100">
+                <h4 className="font-semibold text-base sm:text-lg text-black-text mb-3 dark:text-gray-primary">
                   {entry.selectedCheckinEmotion || "Entrada sem título"}
                 </h4>
                 <p className="text-sm text-gray-700 line-clamp-3 mb-4 dark:text-gray-200">
@@ -509,7 +509,7 @@ const JournalPage = ({ setCurrentPage }) => {
                   </button>
                   <button
                     onClick={() => handleGenerateInsight(entry)}
-                    className="px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9800] text-white text-xs sm:text-sm rounded-md hover:bg-orange-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 flex items-center justify-center"
+                    className="px-3 py-1 sm:px-4 sm:py-2 bg-accent-red text-white text-xs sm:text-sm rounded-md hover:bg-accent-red-dark transition duration-200 focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-opacity-50 flex items-center justify-center"
                     disabled={insightLoading && insightEntryId === entry.id}
                   >
                     {insightLoading && insightEntryId === entry.id ? (
@@ -526,8 +526,8 @@ const JournalPage = ({ setCurrentPage }) => {
                   </p>
                 )}
                 {currentInsight && insightEntryId === entry.id && (
-                  <div className="bg-orange-100 p-3 rounded-md mt-3 text-sm sm:text-base">
-                    <h5 className="font-semibold text-orange-800 mb-1">
+                  <div className="bg-accent-green-light p-3 rounded-md mt-3 text-sm sm:text-base">
+                    <h5 className="font-semibold text-orange-800 mb-1 dark:text-orange-200">
                       Insight Gerado:
                     </h5>
                     <div

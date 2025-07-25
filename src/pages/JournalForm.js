@@ -42,11 +42,11 @@ const CollapsibleSection = ({
   );
 
   return (
-    <div className="bg-stone-50 p-4 sm:p-5 rounded-lg border border-stone-200 transition-all duration-300 relative dark:bg-gray-700 dark:border-gray-600">
+    <div className="bg-background-light p-4 sm:p-5 rounded-lg border border-background-light transition-all duration-300 relative dark:bg-gray-700 dark:border-gray-600">
       <button
         type="button"
-        className={`w-full text-left font-semibold text-lg sm:text-xl text-[#007B8A] mb-3 flex justify-between items-center focus:outline-none ${
-          hasError ? "text-red-600 dark:text-red-400" : "dark:text-teal-400"
+        className={`w-full text-left font-semibold text-lg sm:text-xl text-brand-primary mb-3 flex justify-between items-center focus:outline-none ${
+          hasError ? "text-red-600 dark:text-red-400" : "dark:text-accent-green"
         }`}
         onClick={() => setActiveSection(isOpen ? 0 : sectionNumber)} // Abre/fecha a seção
       >
@@ -72,7 +72,7 @@ const CollapsibleSection = ({
         </svg>
       </button>
       {isOpen && (
-        <div className="space-y-6 pt-4 border-t border-stone-200 mt-4 dark:border-gray-600">
+        <div className="space-y-6 pt-4 border-t border-background-light mt-4 dark:border-gray-600">
           {children}
           {/* Botões de navegação entre seções */}
           <div className="flex justify-between items-center mt-6">
@@ -80,7 +80,7 @@ const CollapsibleSection = ({
               <button
                 type="button"
                 onClick={() => setActiveSection(sectionNumber - 1)}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500"
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition dark:bg-gray-600 dark:text-gray-primary dark:hover:bg-gray-500"
               >
                 Anterior
               </button>
@@ -89,7 +89,7 @@ const CollapsibleSection = ({
               <button
                 type="button"
                 onClick={() => setActiveSection(sectionNumber + 1)}
-                className="px-4 py-2 bg-[#007B8A] text-white rounded-lg hover:bg-teal-700 transition"
+                className="px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary-dark transition"
               >
                 Próximo
               </button>
@@ -449,7 +449,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
         >
           &times;
         </button>
-        <h3 className="text-xl sm:text-2xl font-bold text-[#007B8A] mb-6">
+        <h3 className="text-xl sm:text-2xl font-bold text-brand-primary mb-6">
           {editingEntry ? "Editar Entrada do Diário" : "Nova Entrada do Diário"}
         </h3>
 
@@ -474,7 +474,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
               {emotionOptions.map((option) => (
                 <label
                   key={option}
-                  className="inline-flex items-center cursor-pointer px-3 py-1 bg-teal-100 rounded-full text-sm sm:text-base hover:bg-teal-200 transition-colors duration-200 dark:bg-teal-700 dark:bg-opacity-30 dark:hover:bg-teal-800 dark:hover:bg-opacity-50"
+                  className="inline-flex items-center cursor-pointer px-3 py-1 bg-accent-green-light rounded-full text-sm sm:text-base hover:bg-accent-green transition-colors duration-200 dark:bg-accent-green-light dark:bg-opacity-30 dark:hover:bg-accent-green dark:hover:bg-opacity-50"
                 >
                   <input
                     type="radio"
@@ -482,16 +482,16 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                     value={option}
                     checked={formData.selectedCheckinEmotion === option}
                     onChange={handleChange}
-                    className="form-radio h-4 w-4 text-[#007B8A] transition-all duration-200 focus:ring-[#007B8A]"
+                    className="form-radio h-4 w-4 text-brand-primary transition-all duration-200 focus:ring-brand-primary"
                   />
-                  <span className="ml-2 text-gray-700 dark:text-gray-100">
+                  <span className="ml-2 text-gray-700 dark:text-gray-primary">
                     {option}
                   </span>
                 </label>
               ))}
             </div>
             {formErrors.selectedCheckinEmotion && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-accent-red text-sm mt-1">
                 {formErrors.selectedCheckinEmotion}
               </p>
             )}
@@ -505,7 +505,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
               onChange={handleChange}
               placeholder="Descreva como você se sente agora. Reconheça emoções sem julgá-las."
               rows="3"
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400"
             ></textarea>
             <p className="text-xs text-gray-500 mt-1 dark:text-gray-400">
               Dica: Emoções não são certas ou erradas. São pistas.
@@ -533,14 +533,14 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.challengeDescription}
                   onChange={handleChange}
                   rows="2"
-                  className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400 ${
+                  className={`w-full p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400 ${
                     formErrors.challengeDescription
-                      ? "border-red-500"
+                      ? "border-accent-red"
                       : "border-gray-300"
                   }`}
                 ></textarea>
                 {formErrors.challengeDescription && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-accent-red text-sm mt-1">
                     {formErrors.challengeDescription}
                   </p>
                 )}
@@ -554,14 +554,14 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   name="challengeFeelings"
                   value={formData.challengeFeelings}
                   onChange={handleChange}
-                  className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400 ${
+                  className={`w-full p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400 ${
                     formErrors.challengeFeelings
-                      ? "border-red-500"
+                      ? "border-accent-red"
                       : "border-gray-300"
                   }`}
                 />
                 {formErrors.challengeFeelings && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-accent-red text-sm mt-1">
                     {formErrors.challengeFeelings}
                   </p>
                 )}
@@ -575,7 +575,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.challengeReaction}
                   onChange={handleChange}
                   rows="2"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400"
                 ></textarea>
               </div>
             </div>
@@ -606,7 +606,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.reactionFactors}
                   onChange={handleChange}
                   rows="2"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400"
                 ></textarea>
               </div>
               <div>
@@ -617,7 +617,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   {reactionOutcomeOptions.map((option) => (
                     <label
                       key={option}
-                      className="inline-flex items-center cursor-pointer px-3 py-1 bg-teal-100 rounded-full text-sm sm:text-base hover:bg-teal-200 transition-colors duration-200 dark:bg-teal-700 dark:bg-opacity-30 dark:hover:bg-teal-800 dark:hover:bg-opacity-50"
+                      className="inline-flex items-center cursor-pointer px-3 py-1 bg-accent-green-light rounded-full text-sm sm:text-base hover:bg-accent-green transition-colors duration-200 dark:bg-accent-green-light dark:bg-opacity-30 dark:hover:bg-accent-green dark:hover:bg-opacity-50"
                     >
                       <input
                         type="radio"
@@ -625,16 +625,16 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                         value={option}
                         checked={formData.reactionOutcome === option}
                         onChange={handleChange}
-                        className="form-radio h-4 w-4 text-[#007B8A] transition-all duration-200 focus:ring-[#007B8A]"
+                        className="form-radio h-4 w-4 text-brand-primary transition-all duration-200 focus:ring-brand-primary"
                       />
-                      <span className="ml-2 text-gray-700 dark:text-gray-100">
+                      <span className="ml-2 text-gray-700 dark:text-gray-primary">
                         {option}
                       </span>
                     </label>
                   ))}
                 </div>
                 {formErrors.reactionOutcome && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-accent-red text-sm mt-1">
                     {formErrors.reactionOutcome}
                   </p>
                 )}
@@ -648,7 +648,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.reactionDifferent}
                   onChange={handleChange}
                   rows="2"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400"
                 ></textarea>
               </div>
             </div>
@@ -688,9 +688,9 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                         onChange={(e) =>
                           handleSelectedValueChange(value, e.target.checked)
                         }
-                        className="form-checkbox h-4 w-4 text-[#007B8A] rounded focus:ring-[#007B8A] transition-all duration-200"
+                        className="form-checkbox h-4 w-4 text-brand-primary rounded focus:ring-brand-primary transition-all duration-200"
                       />
-                      <span className="ml-2 text-gray-700 font-medium text-sm sm:text-base dark:text-gray-100">
+                      <span className="ml-2 text-gray-700 font-medium text-sm sm:text-base dark:text-gray-primary">
                         {value}
                       </span>
                     </label>
@@ -708,7 +708,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                         onChange={(e) =>
                           handleValueExampleChange(value, e.target.value)
                         }
-                        className="flex-1 p-2 border border-gray-300 rounded-md text-sm sm:text-base focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 w-full sm:w-auto dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:placeholder-gray-400"
+                        className="flex-1 p-2 border border-gray-300 rounded-md text-sm sm:text-base focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 w-full sm:w-auto dark:bg-gray-500 dark:border-gray-400 dark:text-gray-primary dark:placeholder-gray-400"
                       />
                     )}
                   </div>
@@ -728,14 +728,14 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.customValue}
                   onChange={handleChange}
                   placeholder="Adicione um valor personalizado"
-                  className={`w-full p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:placeholder-gray-400 ${
+                  className={`w-full p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-500 dark:border-gray-400 dark:text-gray-primary dark:placeholder-gray-400 ${
                     formErrors.selectedValues // Este erro também pode cobrir customValue se nenhum valor for selecionado
-                      ? "border-red-500"
+                      ? "border-accent-red"
                       : "border-gray-300"
                   }`}
                 />
                 {formErrors.selectedValues && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-accent-red text-sm mt-1">
                     {formErrors.selectedValues}
                   </p>
                 )}
@@ -767,7 +767,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.successVision}
                   onChange={handleChange}
                   rows="2"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400"
                 ></textarea>
               </div>
               <div>
@@ -786,9 +786,9 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                       onChange={(e) =>
                         handleGoalChange(index, "goal", e.target.value)
                       }
-                      className={`flex-1 p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400 ${
+                      className={`flex-1 p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400 ${
                         formErrors[`successGoals[${index}].goal`]
-                          ? "border-red-500"
+                          ? "border-accent-red"
                           : "border-gray-300"
                       }`}
                     />
@@ -799,16 +799,16 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                       onChange={(e) =>
                         handleGoalChange(index, "relatedValue", e.target.value)
                       }
-                      className={`flex-1 p-2 sm:p-3 border rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400 ${
+                      className={`flex-1 p-2 sm:p-3 border rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary dark:placeholder-gray-400 ${
                         formErrors[`successGoals[${index}].relatedValue`]
-                          ? "border-red-500"
+                          ? "border-accent-red"
                           : "border-gray-300"
                       }`}
                     />
                     <button
                       type="button"
                       onClick={() => handleSuggestGoalActions(goal.goal, index)}
-                      className="px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9800] text-white rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF9800] focus:ring-opacity-50 text-sm sm:text-base flex items-center justify-center"
+                      className="px-3 py-1 sm:px-4 sm:py-2 bg-accent-red text-white rounded-lg shadow-md hover:bg-accent-red-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-red focus:ring-opacity-50 text-sm sm:text-base flex items-center justify-center"
                       disabled={goalSuggestionLoading}
                     >
                       {goalSuggestionLoading ? (
@@ -826,12 +826,12 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   </p>
                 )}
                 {suggestedGoalSteps && (
-                  <div className="bg-orange-100 p-3 rounded-md mt-3 text-sm sm:text-base dark:bg-orange-900 dark:text-orange-100">
+                  <div className="bg-accent-green-light p-3 rounded-md mt-3 text-sm sm:text-base dark:bg-orange-900 dark:text-orange-100">
                     <h5 className="font-semibold text-orange-800 mb-1 dark:text-orange-200">
                       Sugestões de Ações:
                     </h5>
                     <div
-                      className="prose prose-sm max-w-none text-gray-700 dark:text-gray-100"
+                      className="prose prose-sm max-w-none text-gray-700 dark:text-gray-primary"
                       dangerouslySetInnerHTML={{
                         __html: suggestedGoalSteps.replace(/\n/g, "<br/>"),
                       }}
@@ -841,7 +841,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                 {Object.keys(formErrors).some((key) =>
                   key.startsWith("successGoals")
                 ) && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-accent-red text-sm mt-1">
                     Verifique os campos de metas e valores relacionados.
                   </p>
                 )}
@@ -873,7 +873,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   name="commitmentAction"
                   value={formData.commitmentAction}
                   onChange={handleChange}
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
                 />
               </div>
               <div>
@@ -885,7 +885,7 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
                   value={formData.commitmentAffirmation}
                   onChange={handleChange}
                   rows="2"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-[#007B8A] focus:border-[#007B8A] transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-brand-primary focus:border-brand-primary transition-all duration-200 text-sm sm:text-base dark:bg-gray-600 dark:border-gray-500 dark:text-gray-primary"
                 ></textarea>
               </div>
             </div>
@@ -898,14 +898,14 @@ const JournalForm = ({ onClose, editingEntry, setEditingEntry, showAlert }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+              className="px-5 py-2 sm:px-6 sm:py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-primary dark:hover:bg-gray-600"
               disabled={isSaving}
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-5 py-2 sm:px-6 sm:py-3 bg-[#007B8A] text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#007B8A] focus:ring-opacity-50 text-sm sm:text-base"
+              className="px-5 py-2 sm:px-6 sm:py-3 bg-brand-primary text-white font-semibold rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base"
               disabled={isSaving}
             >
               {isSaving ? (

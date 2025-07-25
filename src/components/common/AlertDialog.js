@@ -1,10 +1,9 @@
-
 import React from 'react';
 
 const AlertDialog = ({ message, type, onConfirm, onCancel, onClose }) => {
-  const bgColor = type === 'success' ? 'bg-green-100' : type === 'error' ? 'bg-red-100' : 'bg-blue-100';
-  const textColor = type === 'success' ? 'text-green-700' : type === 'error' ? 'text-red-700' : 'text-blue-700';
-  const borderColor = type === 'success' ? 'border-green-500' : type === 'error' ? 'border-red-500' : 'border-blue-500';
+  const bgColor = type === 'success' ? 'bg-accent-green-light' : type === 'error' ? 'bg-red-100' : 'bg-blue-100';
+  const textColor = type === 'success' ? 'text-accent-green' : type === 'error' ? 'text-red-700' : 'text-blue-700';
+  const borderColor = type === 'success' ? 'border-accent-green' : type === 'error' ? 'border-red-500' : 'border-blue-500';
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
@@ -14,7 +13,7 @@ const AlertDialog = ({ message, type, onConfirm, onCancel, onClose }) => {
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <button
               onClick={onConfirm}
-              className="px-4 py-2 bg-teal-600 text-white rounded-lg shadow-md hover:bg-teal-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50 text-sm sm:text-base"
+              className="px-4 py-2 bg-brand-primary text-white rounded-lg shadow-md hover:bg-brand-primary-dark transition duration-300 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-opacity-50 text-sm sm:text-base"
             >
               Confirmar
             </button>
@@ -28,7 +27,7 @@ const AlertDialog = ({ message, type, onConfirm, onCancel, onClose }) => {
         ) : (
           <button
             onClick={onClose}
-            className={`px-4 py-2 rounded-lg shadow-md transition duration-300 ${type === 'success' ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-red-600 hover:bg-red-700 text-white'} focus:outline-none focus:ring-2 focus:ring-opacity-50 ${type === 'success' ? 'focus:ring-green-500' : 'focus:ring-red-500'} text-sm sm:text-base`}
+            className={`px-4 py-2 rounded-lg shadow-md transition duration-300 ${type === 'success' ? 'bg-accent-green hover:bg-accent-green-dark text-white' : 'bg-red-600 hover:bg-red-700 text-white'} focus:outline-none focus:ring-2 focus:ring-opacity-50 ${type === 'success' ? 'focus:ring-accent-green' : 'focus:ring-red-500'} text-sm sm:text-base`}
           >
             Ok
           </button>
